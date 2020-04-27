@@ -1,0 +1,41 @@
+{
+  "entrypoints": {
+    "js/app": {
+      "js": [
+        "/build/runtime.9662464f.js",
+        "/build/1.5fa25c9b.js",
+        "/build/js/app.13efd83f.js"
+      ]
+    },
+    "js/dashboard": {
+      "js": [
+        "/build/runtime.9662464f.js",
+        "/build/0.1a45601a.js",
+        "/build/js/dashboard.417d3d1d.js"
+      ]
+    },
+    "js/utils": {
+      "js": [
+        "/build/runtime.9662464f.js",
+        "/build/0.1a45601a.js",
+        "/build/js/utils.41cad97a.js"
+      ]
+    },
+    "css/app": {
+      "js": [
+        "/build/runtime.9662464f.js"
+      ],
+      "css": [
+        "/build/css/app.af65fc7b.css"
+      ]
+    },
+    "css/dashboard": {
+      "js": [
+        "/build/runtime.9662464f.js"
+      ],
+      "css": [
+        "/build/css/dashboard.100f093d.css"
+      ]
+    }
+  }
+}
