@@ -1,0 +1,40 @@
+{% extends "base.html.twig" %}
+
+{% block title %}Bienvenue sur Komptaap{% endblock %}
+{% block body %}
+    {% include "partials/header.html.twig" %} 
+     <div class="container">
+            <div class="jumbotron mt-3">
+                <h1 class="display-3">Bienvenue sur KomptApp !</h1>
+                <p class="lead">Komptaap, vous permet de gérer à distance vos finances sans moindre inquiétude !</p>
+                <hr class="my-4">
+                <p>Vous êtes administrateur? cliquez sur le bouton ci-dessous pour accéder à l'espace réservé.</p>
+                <p class="lead">
+                    <a class="btn btn-primary btn-lg" href="{{ path('admin_index') }}" role="button">Connectez-vous</a>
+                </p>
+            </div>
+
+            <h2 class="h1 my-5">Derniers nouveaux membres </h2>
+
+            <div class="row">
+                {% for i in 1..8 %}
+                    <div class="col-md-3">
+                        <div class="card bg-light mb-3">
+                            <img src="http://placehold.it/400x400" alt="Membre {{ i }}" style="width: 100%; height: 200px; display: block;">
+                            <div class="card-body">
+                                <h4 class="card-title">
+                                    Membre n°{{ i }}
+                                </h4>
+                                <p class="card-text">
+                                    Lorem ipsum dolor sit amet consectetur, adipisicing elit.
+                                </p>
+                                <a href="#" class="btn btn-secondary">En savoir plus !</a>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+       </div>
+
+{% endblock %}
+{# GROUPE DE NEHEMIE POUR LE DEVELOPPEMENT COMMUNAUTAIRE #}
