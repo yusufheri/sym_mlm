@@ -1,0 +1,35 @@
+<div class="container">
+  <!-- The Modal -->
+  <div class="modal" id="myModalMember">
+    <div class="modal-dialog">
+      <div class="modal-content">
+      
+        <!-- Modal Header -->
+        <div class="modal-header">
+          <h4 class="modal-title">Quelle catégorie ?</h4>
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+        </div>
+        
+        <!-- Modal body -->
+        <div class="modal-body">
+            <div class="row">
+                <div class="col-md">
+                    <a href="{{ path('admin_member_new', {'id' : 1}) }}" class="btn btn-success btn-lg">Personne physique </a>
+                </div>
+                <div class="col-md">
+                    <a href="{{ path('admin_member_new', {'id' : 2}) }}" class="btn btn-primary btn-lg">Personne morale </a>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Modal footer -->
+        <div class="modal-footer">
+          <a href="{{ path('admin_index') }}" class="btn btn-danger" data-dismiss="modal">Menu principal</a>
+        </div>
+        
+      </div>
+    </div>
+  </div>
+  
+</div>
+

@@ -3,8 +3,9 @@
     "js/app": {
       "js": [
         "/build/runtime.9662464f.js",
-        "/build/1.5fa25c9b.js",
-        "/build/js/app.13efd83f.js"
+        "/build/0.1a45601a.js",
+        "/build/1.6bb8ff3f.js",
+        "/build/js/app.f1cd3f03.js"
       ]
     },
     "js/dashboard": {

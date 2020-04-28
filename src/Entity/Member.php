@@ -19,17 +19,17 @@ class Member
     /**
      * @ORM\Column(type="string", length=255)
      */
-    private $nom;
+    private $name;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
      */
-    private $postnom;
+    private $lastname;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
      */
-    private $prenom;
+    private $prename;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
@@ -116,38 +116,38 @@ class Member
         return $this->id;
     }
 
-    public function getNom(): ?string
+    public function getname(): ?string
     {
-        return $this->nom;
+        return $this->name;
     }
 
-    public function setNom(string $nom): self
+    public function setname(string $name): self
     {
-        $this->nom = $nom;
+        $this->name = $name;
 
         return $this;
     }
 
-    public function getPostnom(): ?string
+    public function getLastname(): ?string
     {
-        return $this->postnom;
+        return $this->lastname;
     }
 
-    public function setPostnom(?string $postnom): self
+    public function setLastname(?string $lastname): self
     {
-        $this->postnom = $postnom;
+        $this->lastname = $lastname;
 
         return $this;
     }
 
-    public function getPrenom(): ?string
+    public function getPrename(): ?string
     {
-        return $this->prenom;
+        return $this->prename;
     }
 
-    public function setPrenom(?string $prenom): self
+    public function setPrename(?string $prename): self
     {
-        $this->prenom = $prenom;
+        $this->prename = $prename;
 
         return $this;
     }

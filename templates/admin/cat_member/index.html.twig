@@ -81,7 +81,8 @@
         </div>
     </div>    
 {% endblock %}
-{% block javascripts %} 
+{% block javascripts %}
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.3/Chart.min.js"></script>
     {{ encore_entry_script_tags('js/dashboard') }}
     {{ encore_entry_script_tags('js/utils') }}
 {% endblock %}

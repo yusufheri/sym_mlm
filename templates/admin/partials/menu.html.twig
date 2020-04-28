@@ -2,9 +2,9 @@
     <div class="sidebar-sticky">
         <ul class="nav flex-column">
             <li class="nav-item">
-                <a class="nav-link active" href="#">
+                <a class="nav-link active" href="{{ path('admin_index') }}">
                 <span data-feather="home"></span>
-                Dashboard <span class="sr-only">(current)</span>
+                Dashboard <span class="sr-only">2</span>
                 </a>
             </li>
             <li class="nav-item ">
@@ -13,8 +13,8 @@
                 Membres
                 </a>
                 <div class="dropdown-menu">
-                    <a class="dropdown-item" href="#"><span data-feather="user-plus"></span> Nouveau Membre</a>
-                    <a class="dropdown-item" href="#"><span data-feather="zoom-in"></span> Liste des Membres</a>
+                    <a class="dropdown-item" href="{{ path('admin_member_new') }}" ><span data-feather="user-plus"></span> Nouveau Membre</a>
+                    <a class="dropdown-item" href="{{ path('admin_member_index') }}"><span data-feather="zoom-in"></span> Liste des Membres</a>
                 </div>
             </li>
             <li class="nav-item ">
@@ -75,6 +75,6 @@
                 Déconnexion
                 </a>
             </li>
-        </ul>
+        </ul>        
     </div>
 </nav>
