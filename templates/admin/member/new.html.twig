@@ -11,8 +11,32 @@
     <div class="container-fluid">
         <div class="row">
             {% include "admin/partials/menu.html.twig" %}
-            <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4">
-                 {% include "admin/partials/modal.html.twig" %}
+            <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4">                
+                {% if form is defined %}
+                    <div class="container">
+                        <h1 class="px-5 my-5">{{title}}</h1>
+                        <div class="row-md px-5">
+                            <div class="alert alert-light">
+                                <h2>Informations générales </h2>
+                                <hr>
+                                {{ form_start(form) }}                            
+
+                                {{ form_widget(form) }}
+                                <div class="alert alert-primary clearfix my-5">
+                                    <h2 class="alert-heading">Sauvegarder les informations</h2>
+                                    <p>Vous êtes sur le point d'enregistrer une <b>{{ title }}</b> comme nouveau membre au sein de l'organisation, nous sommes super fiers de vous.</p>
+                                    <button type="submit" class="btn btn-success float-right">
+                                        <i class="fas fa-check"></i>
+                                        Enregistrer un nouveau membre
+                                    </button>
+                                </div>
+                                {{ form_end(form) }}
+                            </div>                            
+                        </div>
+                    </div>                    
+                {% else %}
+                   {% include "admin/partials/modal.html.twig" %}      
+                {% endif %}
             </main>
         </div>
         
