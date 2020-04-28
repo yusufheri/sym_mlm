@@ -4,6 +4,7 @@
 {% block stylesheets %}
      {{ encore_entry_link_tags('css/dashboard') }}
 {% endblock %}
+
 {% block body %}
     {% include "admin/partials/header.html.twig" %}  
     <div class="container-fluid">
@@ -78,5 +79,9 @@
 
             </main>
         </div>
-    </div>
+    </div>    
+{% endblock %}
+{% block javascripts %} 
+    {{ encore_entry_script_tags('js/dashboard') }}
+    {{ encore_entry_script_tags('js/utils') }}
 {% endblock %}

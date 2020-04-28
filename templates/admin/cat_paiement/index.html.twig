@@ -78,5 +78,9 @@
 
             </main>
         </div>
-    </div>
+    </div>    
+{% endblock %}
+{% block javascripts %} 
+    {{ encore_entry_script_tags('js/dashboard') }}
+    {{ encore_entry_script_tags('js/utils') }}
 {% endblock %}
