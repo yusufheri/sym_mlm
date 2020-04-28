@@ -1,0 +1,82 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Catégorie membres{% endblock %}
+{% block stylesheets %}
+     {{ encore_entry_link_tags('css/dashboard') }}
+{% endblock %}
+{% block body %}
+    {% include "admin/partials/header.html.twig" %}  
+    <div class="container-fluid">
+        <div class="row">
+            {% include "admin/partials/menu.html.twig" %}
+            
+            <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4">                
+                <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+                    <h1 class="h2">Type des paiements</h1>
+                </div>
+                {% for label, messages in app.flashes %}
+                    <div class="container">
+                        <div class="alert alert-dismissible alert-{{label}}">
+                            <button type="button" class="close" data-dismiss="alert">&times;</button>
+                            {% for message in messages %}
+                                <p>{{ message | raw }}</p>
+                            {% endfor %}
+                        </div>
+                    </div>
+                {% endfor %}
+                <div class="row my-3">                    
+                    <div class="col-md">
+                        <div class="alert alert-info">                    
+                            <form action="{{ path('admin_cat_paiement_new') }}" method="post">
+                                <div class="form-group">
+                                    <label for="email">Libellé</label>
+                                    <input type="text" name="_libelle" id="libelle" class="form-control"  placeholder="Entrez le libellé ..." required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="email">Description</label>
+                                    <textarea name="_content" id="content" cols="30" rows="5" class="form-control" placeholder="Description..."></textarea>
+                                </div>
+                                <div class="form-group">
+                                    <button type="submit" class="btn btn-secondary">Enregistrer !</button>
+                                </div>
+                            </form>                    
+                        </div>
+                    </div>
+                    <div class="col-md">
+                        <div class="alert alert-info">
+                            <h2 style="color:black;">Liste</h2>
+                            <div class="table-responsive">
+                                <table class="table table-hover table-sm">
+                                    <thead>
+                                        <tr>
+                                            <th>#</th>
+                                            <th>Libellé</th>
+                                            <th>Description</th>
+                                            <th width="25%">Action</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {% set i = 0 %}
+                                        {% for item in data %}  
+                                             {% set i = i+1 %}                              
+                                            <tr>
+                                                <td>{{i}}</td>
+                                                <td>{{ item.libelle }}</td>
+                                                <td>{{ item.content }}</td>
+                                                <td>
+                                                   {#  <a href="#" class="btn btn-primary"><i class="fas fa-edit"></i></a> #}
+                                                    <a href="{{ path('admin_cat_paiement_delete', {'id' : item.id}) }}" onclick="return confirm('Voulez-vous supprimer cette ligne ?');" class="btn btn-danger"><i class="fas fa-trash"></i></a>
+                                                </td>
+                                            </tr>
+                                        {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>  
+
+            </main>
+        </div>
+    </div>
+{% endblock %}

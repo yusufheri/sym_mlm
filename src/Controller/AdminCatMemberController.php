@@ -19,7 +19,7 @@ class AdminCatMemberController extends AbstractController
     public function index(CatMemberRepository $repo)
     {
         $data = $repo->findBy(["deletedAt" => null], ["libelle" => "ASC"]);
-        dump($data);
+        
         return $this->render('admin/cat_member/index.html.twig', [
             'data' => $data,
         ]);

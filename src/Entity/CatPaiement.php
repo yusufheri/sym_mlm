@@ -6,6 +6,7 @@ use Doctrine\ORM\Mapping as ORM;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\CatPaiementRepository")
+ * @ORM\HasLifecycleCallbacks()
  */
 class CatPaiement
 {
@@ -34,7 +35,16 @@ class CatPaiement
     /**
      * @ORM\Column(type="datetime", nullable=true)
      */
-    private $deteledAt;
+    private $deletedAt;
+
+    /**
+     * @ORM\PrePersist
+     *
+     * @return void
+     */
+    public function setCreatedAtValue() {
+        $this->createdAt = new \DateTime();
+    }
 
     public function getId(): ?int
     {
@@ -77,14 +87,14 @@ class CatPaiement
         return $this;
     }
 
-    public function getDeteledAt(): ?\DateTimeInterface
+    public function getDeletedAt(): ?\DateTimeInterface
     {
-        return $this->deteledAt;
+        return $this->deletedAt;
     }
 
-    public function setDeteledAt(?\DateTimeInterface $deteledAt): self
+    public function setDeteledAt(?\DateTimeInterface $deletedAt): self
     {
-        $this->deteledAt = $deteledAt;
+        $this->deletedAt = $deletedAt;
 
         return $this;
     }
