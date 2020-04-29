@@ -2,20 +2,21 @@
 
 namespace App\Form;
 
-use App\Entity\Commune;
 use App\Entity\Sexe;
 use App\Entity\Member;
+use App\Entity\Commune;
 use App\Entity\Province;
+use App\Entity\CatMember;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
-use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
-use Symfony\Component\Form\Extension\Core\Type\DateType;
-use Symfony\Component\Form\Extension\Core\Type\EmailType;
-use Symfony\Component\Form\Extension\Core\Type\FileType;
-use Symfony\Component\Form\Extension\Core\Type\TelType;
-use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Form\Extension\Core\Type\TelType;
+use Symfony\Component\Form\Extension\Core\Type\DateType;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\Extension\Core\Type\EmailType;
+use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
+use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 
 class SimpleMemberType extends ApplicationType
 {
@@ -33,7 +34,6 @@ class SimpleMemberType extends ApplicationType
                 },
                 "required" => false
             ])
-            ->add('token', TextType::class, $this->getConfiguration("Token", "Token du nouveau membre"))
             ->add('name', TextType::class, $this->getConfiguration("Nom du membre", "Tapez le nom du nouveau membre"))
             ->add('lastname', TextType::class, $this->getConfiguration("Post nom du membre", "Tapez le Post nom du nouveau membre"))
             ->add('prename', TextType::class, $this->getConfiguration("Prénom", "Tapez le Prénom du nouveau membre", ["required" => false]))
@@ -42,7 +42,7 @@ class SimpleMemberType extends ApplicationType
             ->add('email', EmailType::class, $this->getConfiguration("Adresse email", "Tapez l'adresse mail du nouveau membre", ["required" => false]))
             ->add('lieu_nais', TextType::class, $this->getConfiguration("Lieu de naissance", "Tapez le lieu de naissance du nouveau membre"))
             ->add('date_nais', DateType::class, $this->getConfiguration("Date de naissance", "", ['widget' => 'single_text']))
-            ->add('picture', FileType::class, $this->getConfiguration("Photo passeport", "",["required" => false]))
+            ->add('imageFile', FileType::class, $this->getConfiguration("Photo passeport", "",["required" => false]))
             ->add('sexe', EntityType::class,[
                 'class' => Sexe::class,
                 'choice_label' => 'libelle',
@@ -56,6 +56,7 @@ class SimpleMemberType extends ApplicationType
                 'choice_label' => 'libelle',
             ])
             ->add('address', TextareaType::class, $this->getConfiguration("L'adresse", "Introduire le nom de l'avenue et le numéro", ["required" => false]))
+            
         ;
     }
 

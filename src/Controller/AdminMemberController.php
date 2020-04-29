@@ -5,6 +5,8 @@ namespace App\Controller;
 use App\Entity\Member;
 use App\Form\AdvanceMemberType;
 use App\Form\SimpleMemberType;
+use App\Repository\CatMemberRepository;
+use App\Repository\MemberRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -17,10 +19,13 @@ class AdminMemberController extends AbstractController
      * 
      * @return Response
      */
-    public function index()
+    public function index(MemberRepository $repo)
     {
+        $physiques = $repo->findBy(["deletedAt" => null, "category" => 1], ["name" => "ASC"]);
+        $morales = $repo->findBy(["deletedAt" => null, "category" => 2], ["name" => "ASC"]);
+
         return $this->render('admin/member/index.html.twig', [
-            'controller_name' => 'AdminMemberController',
+            'members' => compact('physiques', 'morales'),
         ]);
     }
 
@@ -29,34 +34,43 @@ class AdminMemberController extends AbstractController
      * 
      * @return Response
      */
-    public function new(Request $request, EntityManagerInterface $entityManagerInterface){
+    public function new(Request $request, EntityManagerInterface $entityManagerInterface, 
+    CatMemberRepository $catMemberRepository, MemberRepository $memberRepository){
         $id = $request->query->get("id");
         $title = "Personne physique";
-        
+        $verite = false;
+        $uniqid = "";
 
         $member = new Member();
        
-        if($id == 1 || $id == 2 ){
+        if($id == 1 || $id == 2 ){            
+           
+            while ($verite == false) {
+                $uniqid =strtoupper(substr(uniqid(""), 2, 6));
+                $members = $memberRepository->findBy(["token" => $uniqid]);
+                if (count($members) < 1) {$verite = true;}
+            }   
+
+            $member->setCategory($catMemberRepository->find($id))
+                    ->setToken($uniqid);
+           
+
             $form =($id == 1)? $this->createForm(SimpleMemberType::class,$member):$this->createForm(AdvanceMemberType::class,$member);
             $title = ($id == 1)?$title:"Personne morale";
            
-            
+           
             $form->handleRequest($request);
 
             if($form->isSubmitted() && $form->isValid()){
-
+               
                 $entityManagerInterface->persist($member);
                 $entityManagerInterface->flush();
-
-                dump($member);
-
+                dump($member);     
                 $this->addFlash(
                     "success",
                     "Le nouveau membre <b>". $member->getname() ."</b> est enregistré avec succès dans la base de données"
                 ); 
 
-                //$form->reset();
-                //  return $this->redirectToRoute('admin_member_new');
             }
 
             return $this->render('admin/member/new.html.twig', [

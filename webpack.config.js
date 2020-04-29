@@ -27,7 +27,7 @@ Encore
     .addEntry('js/dashboard', './assets/js/dashboard.js')
     .addEntry('js/utils', './assets/js/utils.js')
     //.addEntry('page1', './assets/js/page1.js')
-    .addStyleEntry('css/app', './assets/css/app.css')
+    .addStyleEntry('css/app', './assets/css/app.scss')
     .addStyleEntry('css/dashboard', './assets/css/dashboard.css')
 
     // When enabled, Webpack "splits" your files into smaller pieces for greater optimization.
@@ -57,7 +57,7 @@ Encore
     })
 
     // enables Sass/SCSS support
-    //.enableSassLoader()
+    .enableSassLoader()
 
     // uncomment if you use TypeScript
     //.enableTypeScriptLoader()

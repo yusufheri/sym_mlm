@@ -11,7 +11,114 @@
     <div class="container-fluid">
         <div class="row">
             {% include "admin/partials/menu.html.twig" %}
-            <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4"></main>
+            <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4"> 
+                 <h1 class="my-3">Nos membres</h1>
+                <ul class="nav nav-tabs">
+                    <li class="nav-item">
+                        <a class="nav-link active" data-toggle="tab" href="#physique">
+                        <i class="fas fa-user"></i>
+                        Personnes physiques</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" data-toggle="tab" href="#morale">
+                        <i class="fas fa-home"></i>
+                        Personnes morales</a>
+                    </li>
+                </ul>
+                <div id="myTabContent" class="tab-content">                   
+                    <div class="tab-pane fade active show" id="physique">
+                        <div class="container-fluid">
+                            <h1>Personnes physiques</h1>
+                            <table class="table table-hover">
+                                <thead>
+                                    <tr>
+                                        <th>Id</th>
+                                        <th>Date adhésion</th>
+                                        <th>Membre</th>
+                                        <th class="text-center">Téléphone</th>
+                                        <th>Adresse</th>
+                                        <th class="text-center">Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% set i = 0 %}
+                                    {% for member in members.physiques %}
+                                        <tr>
+                                            {% set i = i+1 %}
+                                            <td>{{i}}</td>
+                                            <td>{{member.createdAt | date('d/m/Y H:i') }}</td>
+                                            <td>
+                                                {% if member.picture %}
+                                                    <img src="/images/members/{{ member.picture }}" alt="Avatar de {{member.fullName}}" class="avatar avatar-mini">
+                                                {% endif %}                       
+                                                {{member.fullName}}
+                                            </td>                    
+                                            <td class="text-center">
+                                                {{member.tel1}}                  
+                                            </td>
+                                            <td >
+                                            {{member.address}}    
+                                            </td>
+                                            <td>
+                                                <a href="#" class="btn btn-info"><i class="fas fa-eye"></i></a>
+                                                <a href="#" class="btn btn-primary"><i class="fas fa-edit"></i></a>
+                                                <a href="#" class="btn btn-danger"
+                                                onclick="return confirm('Voulez-vous supprimer ce membre ?');"><i class="fas fa-trash"></i></a>
+                                            </td>
+                                        </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>  
+                    </div>
+                    <div class="tab-pane fade" id="morale">
+                         <div class="container-fluid">
+                            <h1 class="">Personnes morales</h1>
+                            <table class="table table-hover">
+                                <thead>
+                                    <tr>
+                                        <th>Id</th>
+                                        <th>Date adhésion</th>
+                                        <th>Membre</th>
+                                        <th class="text-center">Téléphone</th>
+                                        <th>Adresse</th>
+                                        <th class="text-center">Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% set i = 0 %}
+                                    {% for member in members.morales %}
+                                        <tr>
+                                            {% set i = i+1 %}
+                                            <td>{{i}}</td>
+                                            <td>{{member.createdAt | date('d/m/Y H:i') }}</td>
+                                            <td>
+                                                {% if member.picture %}
+                                                    <img src="/images/members/{{ member.picture }}" alt="Avatar de {{member.fullName}}" class="avatar avatar-mini">
+                                                {% endif %}                       
+                                                {{member.fullName}}
+                                            </td>                    
+                                            <td class="text-center">
+                                                {{member.tel1}}                  
+                                            </td>
+                                            <td >
+                                            {{member.address}}    
+                                            </td>
+                                            <td>
+                                                <a href="#" class="btn btn-info"><i class="fas fa-eye"></i></a>
+                                                <a href="#" class="btn btn-primary"><i class="fas fa-edit"></i></a>
+                                                <a href="#" class="btn btn-danger"
+                                                onclick="return confirm('Voulez-vous supprimer ce membre ?');"><i class="fas fa-trash"></i></a>
+                                            </td>
+                                        </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>  
+                    </div>
+                </div>              
+                          
+            </main>
         </div>
     </div>
 {% endblock %}

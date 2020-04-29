@@ -1,0 +1,22 @@
+@import url('./bootstrap.min.css');
+
+.avatar{
+    max-width: 128px;
+    max-height: 128px;
+    border-radius: 50%;
+
+    &.avatar-medium{
+        max-width: 64px;
+        max-height: 64px;
+    }
+    
+    &.avatar-mini{
+        max-width: 32px;
+        max-height: 32px;
+    }
+    
+    &.avatar-micro{
+        max-width: 25px;
+        max-height: 25px;
+    }
+}

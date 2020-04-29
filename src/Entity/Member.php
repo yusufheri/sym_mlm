@@ -2,9 +2,12 @@
 
 namespace App\Entity;
 
+use App\Repository\MemberRepository;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\Collection;
+use Symfony\Component\HttpFoundation\File\File;
 use Doctrine\Common\Collections\ArrayCollection;
+use Vich\UploaderBundle\Mapping\Annotation as Vich;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
@@ -16,6 +19,9 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
  *      fields={"token"},
  *      message="Une autre personne possède déjà ce token, prière de recommncer"
  * )
+ * 
+ * @Vich\Uploadable
+ * 
  */
 class Member
 {
@@ -120,6 +126,15 @@ class Member
     private $date_nais;
 
     /**
+     * NOTE: This is not a mapped field of entity metadata, just a simple property.
+     * 
+     * @Vich\UploadableField(mapping="member_image", fileNameProperty="picture")
+     * 
+     * @var File|null
+     */
+    private $imageFile;
+
+    /**
      * @ORM\Column(type="string", length=255, nullable=true)
      */
     private $picture;
@@ -145,6 +160,19 @@ class Member
      */
     private $members;
 
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\CatMember", inversedBy="members")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $category;
+
+    /**
+     * @ORM\Column(type="text", nullable=true)
+     * @Assert\Length(min=25, max=250, minMessage="Le champ doit faire au moins 25 caractères",maxMessage="Le champ doit faire tout au plus 250 caractères")
+     * 
+     */
+    private $description;
+
     public function __construct()
     {
         $this->members = new ArrayCollection();
@@ -158,8 +186,15 @@ class Member
     public function setCreatedAtValue() {
         $date = new \DateTime();
         $this->createdAt = $date;
-        $this->updatedAt = $date;
+        $this->updatedAt = $date; 
+        
+       
     }
+
+    public function getFullName(){
+        return "{$this->name} {$this->lastname} {$this->prename}";
+    }
+
 
     /**
      * @ORM\PreUpdate
@@ -168,6 +203,30 @@ class Member
      */
     public function setUpdatedAtValue() {
         $this->updatedAt = new \DateTime();
+    }
+
+    /**
+     * If manually uploading a file (i.e. not using Symfony Form) ensure an instance
+     * of 'UploadedFile' is injected into this setter to trigger the update. If this
+     * bundle's configuration parameter 'inject_on_load' is set to 'true' this setter
+     * must be able to accept an instance of 'File' as the bundle will inject one here
+     * during Doctrine hydration.
+     *
+     * @param File|\Symfony\Component\HttpFoundation\File\UploadedFile|null $imageFile
+     */
+    public function setImageFile(?File $imageFile = null): self
+    {
+        $this->imageFile = $imageFile;
+
+        if (null !== $imageFile) {
+            $this->updatedAt = new \DateTime('now');
+        }
+        return $this;
+    }
+
+    public function getImageFile(): ?File
+    {
+        return $this->imageFile;
     }
 
     public function getId(): ?int
@@ -467,6 +526,30 @@ class Member
                 $member->setParrain(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getCategory(): ?CatMember
+    {
+        return $this->category;
+    }
+
+    public function setCategory(?CatMember $category): self
+    {
+        $this->category = $category;
+
+        return $this;
+    }
+
+    public function getDescription(): ?string
+    {
+        return $this->description;
+    }
+
+    public function setDescription(?string $description): self
+    {
+        $this->description = $description;
 
         return $this;
     }
