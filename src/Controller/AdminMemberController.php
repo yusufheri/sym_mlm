@@ -31,30 +31,38 @@ class AdminMemberController extends AbstractController
      */
     public function new(Request $request, EntityManagerInterface $entityManagerInterface){
         $id = $request->query->get("id");
-        $title = "Personne physique (Nouveau membre)";
-        //  $form = null;
+        $title = "Personne physique";
+        
 
         $member = new Member();
        
         if($id == 1 || $id == 2 ){
             $form =($id == 1)? $this->createForm(SimpleMemberType::class,$member):$this->createForm(AdvanceMemberType::class,$member);
-            $title = ($id == 1)?$title:"Personne morale (Nouveau membre)";
-
+            $title = ($id == 1)?$title:"Personne morale";
+           
+            
             $form->handleRequest($request);
 
             if($form->isSubmitted() && $form->isValid()){
+
                 $entityManagerInterface->persist($member);
                 $entityManagerInterface->flush();
 
+                dump($member);
+
                 $this->addFlash(
                     "success",
-                    "Le nouveau membre est enregistré avec succès"
+                    "Le nouveau membre <b>". $member->getname() ."</b> est enregistré avec succès dans la base de données"
                 ); 
+
+                //$form->reset();
+                //  return $this->redirectToRoute('admin_member_new');
             }
 
             return $this->render('admin/member/new.html.twig', [
                 'form' => $form->createView(),
-                'title' => $title
+                'title' => $title,
+                'member' => $member
             ]);            
         }else {
             return $this->render('admin/member/new.html.twig', ['title' => $title]);

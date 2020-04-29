@@ -11,6 +11,10 @@ $(document).ready(function(){
     if(mytext != 1 & mytext != 2){
         $("#myModalMember").modal("show");
     }
+    if($("#myModalPaiment") != undefined){
+        $("#myModalPaiment").modal("show");
+    }
+   
    
     function getUrlParam(parameter, defaultvalue){
         var urlparameter = defaultvalue;

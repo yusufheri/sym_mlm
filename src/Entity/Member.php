@@ -3,9 +3,19 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\Common\Collections\Collection;
+use Doctrine\Common\Collections\ArrayCollection;
+use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\MemberRepository")
+ * @ORM\HasLifecycleCallbacks()
+ * @UniqueEntity(
+ *      fields={"token"},
+ *      message="Une autre personne possède déjà ce token, prière de recommncer"
+ * )
  */
 class Member
 {
@@ -18,11 +28,13 @@ class Member
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\Length(min=3, max=255, minMessage="Le nom doit faire au moins 10 caractères",maxMessage="Le nom doit faire tout au plus 255 caractères")
      */
     private $name;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
+     * @Assert\Length(min=3, max=255, minMessage="Le postnom doit faire au moins 10 caractères",maxMessage="Le postnom doit faire tout au plus 255 caractères")
      */
     private $lastname;
 
@@ -33,6 +45,7 @@ class Member
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
+     * @Assert\Length(min=10, max=15, minMessage="Le champ doit faire au moins 10 caractères",maxMessage="Le champ doit faire tout au plus 15 caractères")
      */
     private $tel1;
 
@@ -102,7 +115,7 @@ class Member
     private $lieu_nais;
 
     /**
-     * @ORM\Column(type="string", length=255, nullable=true)
+     * @ORM\Column(type="datetime", nullable=true)
      */
     private $date_nais;
 
@@ -113,6 +126,7 @@ class Member
 
     /**
      * @ORM\Column(type="text")
+     * @Assert\NotBlank(message="Prière de saisir votre avenue, le numéro, la référence")
      */
     private $address;
 
@@ -120,6 +134,41 @@ class Member
      * @ORM\Column(type="string", length=15)
      */
     private $token;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\Member", inversedBy="members")
+     */
+    private $parrain;
+
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Member", mappedBy="parrain")
+     */
+    private $members;
+
+    public function __construct()
+    {
+        $this->members = new ArrayCollection();
+    }
+
+    /**
+     * @ORM\PrePersist
+     *
+     * @return void
+     */
+    public function setCreatedAtValue() {
+        $date = new \DateTime();
+        $this->createdAt = $date;
+        $this->updatedAt = $date;
+    }
+
+    /**
+     * @ORM\PreUpdate
+     *
+     * @return void
+     */
+    public function setUpdatedAtValue() {
+        $this->updatedAt = new \DateTime();
+    }
 
     public function getId(): ?int
     {
@@ -330,13 +379,14 @@ class Member
         return $this;
     }
 
-    public function getDateNais(): ?string
+    public function getDateNais(): ?\DateTimeInterface
     {
         return $this->date_nais;
     }
 
-    public function setDateNais(?string $date_nais): self
+    public function setDateNais(?\DateTimeInterface $date_nais, $format = 'Y-m-d H:i:s'): self
     {
+        //return $this->date_naissance->format($format);
         $this->date_nais = $date_nais;
 
         return $this;
@@ -374,6 +424,49 @@ class Member
     public function setToken(string $token): self
     {
         $this->token = $token;
+
+        return $this;
+    }
+
+    public function getParrain(): ?self
+    {
+        return $this->parrain;
+    }
+
+    public function setParrain(?self $parrain): self
+    {
+        $this->parrain = $parrain;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|self[]
+     */
+    public function getMembers(): Collection
+    {
+        return $this->members;
+    }
+
+    public function addMember(self $member): self
+    {
+        if (!$this->members->contains($member)) {
+            $this->members[] = $member;
+            $member->setParrain($this);
+        }
+
+        return $this;
+    }
+
+    public function removeMember(self $member): self
+    {
+        if ($this->members->contains($member)) {
+            $this->members->removeElement($member);
+            // set the owning side to null (unless already changed)
+            if ($member->getParrain() === $this) {
+                $member->setParrain(null);
+            }
+        }
 
         return $this;
     }

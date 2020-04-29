@@ -1,0 +1,41 @@
+<div class="container">
+  <!-- The Modal -->
+  <div class="modal" id="myModalPaiment" data-keyboard="false" data-backdrop="static">
+    <div class="modal-dialog">
+      <div class="modal-content">
+      
+        <!-- Modal Header -->
+        <div class="modal-header">
+          <h4 class="modal-title">Voulez-vous enregister le frais d'adhésion pour <b>{{ member.name ~ ' ('~ member.token ~')' }} </b>?</h4>
+          
+        </div>
+        
+        <!-- Modal body -->
+        <div class="modal-body">
+          <div class="container">
+            <div class="row text-center">
+                <div class="col-md">
+                    <a href="#" class="btn btn-success btn-lg">
+                    <i class="fas fa-check fa-2x"></i>
+                    Oui</a>
+                </div>
+                <div class="col-md">
+                    <a href="{{ path('admin_member_index') }}" class="btn btn-danger btn-lg">
+                    <i class="fas fa-times fa-2x"></i>
+                    Non</a>
+                </div>
+            </div>
+          </div>            
+        </div>
+        
+        <!-- Modal footer -->
+        <div class="modal-footer">
+          <a href="{{ path('admin_index') }}" class="btn btn-info">Menu principal</a>
+        </div>
+        
+      </div>
+    </div>
+  </div>
+  
+</div>
+

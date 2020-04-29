@@ -22,6 +22,17 @@ class SimpleMemberType extends ApplicationType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
+            ->add('parrain', EntityType::class,[
+                'label' => "Parrain Direct ",
+                'attr'  => [
+                    'placeholder' => "Selectionnez le parrain direct du nouveau membre",
+                ],
+                'class' => Member::class,
+                'choice_label' => function(Member $member){
+                    return $member->getname().' '.$member->getLastname(). ' ('.$member->getToken().')';
+                },
+                "required" => false
+            ])
             ->add('token', TextType::class, $this->getConfiguration("Token", "Token du nouveau membre"))
             ->add('name', TextType::class, $this->getConfiguration("Nom du membre", "Tapez le nom du nouveau membre"))
             ->add('lastname', TextType::class, $this->getConfiguration("Post nom du membre", "Tapez le Post nom du nouveau membre"))
