@@ -173,9 +173,21 @@ class Member
      */
     private $description;
 
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Paiement", mappedBy="payer")
+     */
+    private $paiements;
+
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Bonus", mappedBy="beneficiary")
+     */
+    private $bonuses;
+
     public function __construct()
     {
         $this->members = new ArrayCollection();
+        $this->paiements = new ArrayCollection();
+        $this->bonuses = new ArrayCollection();
     }
 
     /**
@@ -550,6 +562,68 @@ class Member
     public function setDescription(?string $description): self
     {
         $this->description = $description;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Paiement[]
+     */
+    public function getPaiements(): Collection
+    {
+        return $this->paiements;
+    }
+
+    public function addPaiement(Paiement $paiement): self
+    {
+        if (!$this->paiements->contains($paiement)) {
+            $this->paiements[] = $paiement;
+            $paiement->setPayer($this);
+        }
+
+        return $this;
+    }
+
+    public function removePaiement(Paiement $paiement): self
+    {
+        if ($this->paiements->contains($paiement)) {
+            $this->paiements->removeElement($paiement);
+            // set the owning side to null (unless already changed)
+            if ($paiement->getPayer() === $this) {
+                $paiement->setPayer(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Bonus[]
+     */
+    public function getBonuses(): Collection
+    {
+        return $this->bonuses;
+    }
+
+    public function addBonus(Bonus $bonus): self
+    {
+        if (!$this->bonuses->contains($bonus)) {
+            $this->bonuses[] = $bonus;
+            $bonus->setBeneficiary($this);
+        }
+
+        return $this;
+    }
+
+    public function removeBonus(Bonus $bonus): self
+    {
+        if ($this->bonuses->contains($bonus)) {
+            $this->bonuses->removeElement($bonus);
+            // set the owning side to null (unless already changed)
+            if ($bonus->getBeneficiary() === $this) {
+                $bonus->setBeneficiary(null);
+            }
+        }
 
         return $this;
     }

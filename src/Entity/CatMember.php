@@ -49,9 +49,15 @@ class CatMember
      */
     private $members;
 
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\CatPaiement", mappedBy="category")
+     */
+    private $catPaiements;
+
     public function __construct()
     {
         $this->members = new ArrayCollection();
+        $this->catPaiements = new ArrayCollection();
     }
 
     /**
@@ -141,6 +147,37 @@ class CatMember
             // set the owning side to null (unless already changed)
             if ($member->getCategory() === $this) {
                 $member->setCategory(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|CatPaiement[]
+     */
+    public function getCatPaiements(): Collection
+    {
+        return $this->catPaiements;
+    }
+
+    public function addCatPaiement(CatPaiement $catPaiement): self
+    {
+        if (!$this->catPaiements->contains($catPaiement)) {
+            $this->catPaiements[] = $catPaiement;
+            $catPaiement->setCategory($this);
+        }
+
+        return $this;
+    }
+
+    public function removeCatPaiement(CatPaiement $catPaiement): self
+    {
+        if ($this->catPaiements->contains($catPaiement)) {
+            $this->catPaiements->removeElement($catPaiement);
+            // set the owning side to null (unless already changed)
+            if ($catPaiement->getCategory() === $this) {
+                $catPaiement->setCategory(null);
             }
         }
 
