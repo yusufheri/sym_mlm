@@ -6,9 +6,9 @@ require('bootstrap');
 
 $(document).ready(function(){
     var mytext = getUrlParam('id',-1);
-    console.log(mytext);
+   
 
-    if(mytext == -1){
+    if(mytext != 1 & mytext != 2){
         $("#myModalMember").modal("show");
     }
    

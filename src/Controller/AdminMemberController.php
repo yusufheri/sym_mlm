@@ -35,7 +35,7 @@ class AdminMemberController extends AbstractController
         //  $form = null;
 
         $member = new Member();
-
+        dump($id);
         if($id == 1 || $id == 2 ){
             $form =($id == 1)? $this->createForm(SimpleMemberType::class,$member):$this->createForm(AdvanceMemberType::class,$member);
             $title = ($id == 1)?$title:"Personne morale (Nouveau membre)";
@@ -49,8 +49,7 @@ class AdminMemberController extends AbstractController
                 $this->addFlash(
                     "success",
                     "Le nouveau membre est enregistré avec succès"
-                );
-                dump($member);
+                ); 
             }
 
             return $this->render('admin/member/new.html.twig', [
