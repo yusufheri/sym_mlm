@@ -49,7 +49,9 @@
                                             <td>{{member.createdAt | date('d/m/Y H:i') }}</td>
                                             <td>
                                                 {% if member.picture %}
-                                                    <img src="/images/members/{{ member.picture }}" alt="Avatar de {{member.fullName}}" class="avatar avatar-mini">
+                                                    <img src="{{ vich_uploader_asset(member, 'imageFile') }}" alt="Avatar de {{member.fullName}}" class="avatar avatar-mini">
+                                                {% else %}
+                                                    <img src="/images/members/avatar.jpg" alt="Avatar de {{member.fullName}}" class="avatar avatar-mini">
                                                 {% endif %}                       
                                                 {{member.fullName}}
                                             </td>                    
@@ -93,10 +95,11 @@
                                             <td>{{i}}</td>
                                             <td>{{member.createdAt | date('d/m/Y H:i') }}</td>
                                             <td>
-                                                {% if member.picture %}
-                                                    <img src="/images/members/{{ member.picture }}" alt="Avatar de {{member.fullName}}" class="avatar avatar-mini">
-                                                {% endif %}                       
-                                                {{member.fullName}}
+                                                 {% if member.picture %}
+                                                    <img src="{{ vich_uploader_asset(member, 'imageFile') }}" alt="Avatar de {{member.fullName}}" class="avatar avatar-mini">
+                                                {% else %}
+                                                    <img src="/images/members/avatar.jpg" alt="Avatar de {{member.fullName}}" class="avatar avatar-mini">
+                                                {% endif %} 
                                             </td>                    
                                             <td class="text-center">
                                                 {{member.tel1}}                  

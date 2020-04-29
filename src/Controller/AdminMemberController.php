@@ -65,7 +65,7 @@ class AdminMemberController extends AbstractController
                
                 $entityManagerInterface->persist($member);
                 $entityManagerInterface->flush();
-                dump($member);     
+              
                 $this->addFlash(
                     "success",
                     "Le nouveau membre <b>". $member->getname() ."</b> est enregistré avec succès dans la base de données"
