@@ -35,8 +35,17 @@
                         </div>
                     </div>                    
                 {% else %}
-                    Notre modal
-                   {% include "admin/partials/modal.html.twig" %}      
+                   {% include "admin/partials/modal.html.twig" %}  
+                    <div class="jumbotron my-3">
+                        <h1 class="display-5">Enregistrement des nouveaux membres</h1>
+                        <p class="lead">Nous enregistrons deux catégories de membres, prière de cliquez sur l'un des boutons ci-dessous.</p>
+                        <hr class="my-4">
+                        <p></p>
+                        <p class="lead">
+                            <a class="btn btn-primary btn-lg" href="{{ path('admin_member_new', {'id' : 1}) }}" role="button">Personne physique</a>
+                            <a class="btn btn-danger btn-lg" href="{{ path('admin_member_new', {'id' : 2}) }}" role="button">Personne morale</a>
+                        </p>
+                    </div>    
                 {% endif %}
             </main>
         </div>
