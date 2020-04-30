@@ -65,7 +65,7 @@ class Paiement
     private $bonuses;
 
     /**
-     * @ORM\Column(type="datetime")
+     * @ORM\Column(type="date")
      */
     private $paidAt;
 

@@ -124,11 +124,14 @@ class AppFixtures extends Fixture
             $manager->persist($member);
 
             $paiement = new Paiement();
+            $PaidAt = new \DateTime('now');
+            $PaidAt = (clone $PaidAt)->modify("- ".mt_rand(3,4)." days");
+
             $paiement   ->setAmount(($catMembreId == 0)? 10: 50 )
                         ->setPayer($member)
                         ->setCategory($catPaiements[0])
                         ->setAmountLetter(($catMembreId == 0)? "Dix dollars américains": "Cinquante dollars américains" )
-                        ->setPaidAt(new \DateTime('now'));
+                        ->setPaidAt($PaidAt);
             $manager->persist($paiement);
 
             
@@ -199,11 +202,14 @@ class AppFixtures extends Fixture
         
                     $manager->persist($member_child2);
                     $paiement = new Paiement();
+                    $PaidAt = new \DateTime('now');
+                    $PaidAt = (clone $PaidAt)->modify("- ".mt_rand(1,3)." days");
+
                     $paiement   ->setAmount(($catMembreId == 0)? 10: 50 )
                                 ->setPayer($member_child2)
                                 ->setCategory($catPaiements[0])
                                 ->setAmountLetter(($catMembreId == 0)? "Dix dollars américains": "Cinquante dollars américains" )
-                                ->setPaidAt(new \DateTime('now'));
+                                ->setPaidAt($PaidAt);
                     $manager->persist($paiement);
                     
                     $bonus = new Bonus();

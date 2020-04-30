@@ -26,7 +26,7 @@
                                         <i class="fas fa-users fa-3x"></i>
                                     </div>
                                     <div class="col-md-8">
-                                        <h4 class="card-title">120 Membres enregistrés</h4>
+                                        <h4 class="card-title">{{ stats.members }} Membres enregistrés (Total général)</h4>
                                     </div>
                                 </div>
                             </div>
@@ -37,10 +37,10 @@
                             <div class="card-body">
                                 <div class="row">
                                     <div class="col-md-4">
-                                        <i class="fas fa-hotel fa-3x"></i>
+                                        <i class="fas fa-users fa-3x"></i>
                                     </div>
                                     <div class="col-md-8">
-                                        <h4 class="card-title">120 paiements mensuels</h4>
+                                        <h4 class="card-title">{{stats.currentMonth}} membres enregistrés (mois en cours)</h4>
                                     </div>
                                 </div>
                             </div>
@@ -51,22 +51,25 @@
                             <div class="card-body">
                                 <div class="row">
                                     <div class="col-md-4">
-                                        <i class="fas fa-folder fa-3x"></i>
+                                        <i class="fas fa-folder-open fa-3x"></i>
                                     </div>
                                     <div class="col-md-8">
-                                        <h4 class="card-title">120 Cotisations mens.</h4>
+                                        <h4 class="card-title">{{stats.currentpaiement | number_format('1', ',',' ')}} &dollar;  Situation caisse (mois en cours)</h4>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
-
-                <div class="row my-5">                   
-                    <div class="col-md-6">                        
+                <hr> 
+                <div class="row my-3">  
+                      
+                    <div class="col-md-6">  
+                        <h3>Situation hebdomadaire (USD)</h3>                      
                         <canvas id="myChart"></canvas>
                     </div>
                     <div class="col-md-6">
+                        <h3 class="text-center">Proportion par catégorie</h3>
                         <canvas id="chart-area"></canvas>
                     </div>
                 </div>
@@ -116,7 +119,6 @@
 
 {% block javascripts %}    
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.3/Chart.min.js"></script>
-     {{ encore_entry_script_tags('js/dashboard') }}
      {{ encore_entry_script_tags('js/utils') }}
     <script>
         var randomScalingFactor = function() {
@@ -128,21 +130,18 @@
             data: {
                 datasets: [{
                     data: [
-                        randomScalingFactor(),
-                        randomScalingFactor(),
-                        randomScalingFactor(),
+                        {{stats.members_physiques}},
+                        {{stats.members_morales}},
                     ],
                     backgroundColor: [
                         window.chartColors.red,
-                        window.chartColors.green,
                         window.chartColors.blue,
                     ],
                     label: 'Dataset 1'
                 }],
                 labels: [
-                    'Red',
-                    'Green',
-                    'Blue',
+                    'Personnes phusiques',
+                    'Personnes morales',
                 ]
             },
             options: {
@@ -154,5 +153,53 @@
             var ctx = document.getElementById('chart-area').getContext('2d');
             window.myPie = new Chart(ctx, config);
         };       
-	</script>
+    </script>
+    <script>
+        /* globals Chart:false, feather:false */
+
+        (function () {
+            'use strict'  
+            
+            feather.replace()
+
+            // Graphs
+            var ctx = document.getElementById('myChart')
+            // eslint-disable-next-line no-unused-vars
+            var myChart = new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: [
+                    {% for paiement in stats.currentWeekPaiement %}
+                        "{{ paiement.day.format('d/m/Y')}}",
+                    {% endfor %}
+                ],
+                datasets: [{
+                data: [
+                    {% for paiement in stats.currentWeekPaiement %}
+                        "{{ paiement.amount}}",
+                    {% endfor %}
+                ],
+                lineTension: 0,
+                backgroundColor: 'transparent',
+                borderColor: '#007bff',
+                borderWidth: 4,
+                pointBackgroundColor: '#007bff'
+                }]
+            },
+            options: {
+                scales: {
+                yAxes: [{
+                    ticks: {
+                    beginAtZero: false
+                    }
+                }]
+                },
+                legend: {
+                display: false
+                }
+            }
+            })
+            }())
+    
+    </script>
  {% endblock %}
