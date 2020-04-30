@@ -27,8 +27,8 @@
                             </tr>
                         </thead>
                         <tbody>
-                            {% set i = 0 %}
-                            {% for item in paiements %}
+                            {% set i = paginator.start %}
+                            {% for item in paginator.data %}
                             {% set i = i + 1 %}
                                 <tr>
                                     <td>{{ i }}</td>
@@ -45,6 +45,7 @@
                             {% endfor %}                           
                         </tbody>
                     </table>
+                    {{ paginator.display }}
                 </div> 
             </main>
         </div>

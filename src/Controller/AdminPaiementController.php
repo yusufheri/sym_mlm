@@ -7,6 +7,7 @@ use App\Entity\Member;
 use App\Entity\Paiement;
 use App\Form\PaiementType;
 use App\Repository\PaiementRepository;
+use App\Service\Paginator;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -15,14 +16,18 @@ use Symfony\Component\Routing\Annotation\Route;
 class AdminPaiementController extends AbstractController
 {
     /**
-     * @Route("/admin/paiement", name="admin_paiement_index")
+     * @Route("/admin/paiement/{page<\d+>?1}", name="admin_paiement_index")
      * 
      * @return Response
      */
-    public function index(PaiementRepository $paiementRepository)
+    public function index(PaiementRepository $paiementRepository,$page, Paginator $paginator)
     {
+        $paginator  ->setEntityClass(Paiement::class)
+                    ->setLimit(15)
+                    ->setPage($page);
         return $this->render('admin/paiement/index.html.twig', [
-            'paiements' => $paiementRepository->findBy(["deletedAt" => null],["paidAt" => "DESC"]),
+            'paginator' => $paginator,
+            //  'paiements' => $paiementRepository->findBy(["deletedAt" => null],["paidAt" => "DESC"]),
         ]);
     }
 

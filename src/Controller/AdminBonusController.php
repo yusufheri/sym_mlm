@@ -3,23 +3,25 @@
 namespace App\Controller;
 
 use App\Entity\Bonus;
+use App\Service\Paginator;
 use App\Repository\BonusRepository;
 use Doctrine\ORM\EntityManagerInterface;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class AdminBonusController extends AbstractController
 {
     /**
-     * @Route("/admin/bonus", name="admin_bonus_index")
+     * @Route("/admin/bonus/{page<\d+>?1}", name="admin_bonus_index")
      */
-    public function index(BonusRepository $bonusRepository, EntityManagerInterface $manager)
+    public function index(BonusRepository $bonusRepository, EntityManagerInterface $manager,$page, Paginator $paginator)
     {
-        $data = $manager->createQuery(
-
-        );
+        $paginator  ->setEntityClass(Bonus::class)
+                    ->setLimit(15)
+                    ->setPage($page);
         return $this->render('admin/bonus/index.html.twig', [
-            'bonuses' => $bonusRepository->findBy(["deletedAt" => null]),
+            'paginator' => $paginator,
+            //  'bonuses' => $bonusRepository->findBy(["deletedAt" => null]),
         ]);
     }
 
