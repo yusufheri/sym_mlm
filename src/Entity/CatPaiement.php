@@ -54,6 +54,11 @@ class CatPaiement
      */
     private $category;
 
+    /**
+     * @ORM\Column(type="integer", nullable=true)
+     */
+    private $indice;
+
     public function __construct()
     {
         $this->paiements = new ArrayCollection();
@@ -65,7 +70,9 @@ class CatPaiement
      * @return void
      */
     public function setCreatedAtValue() {
-        $this->createdAt = new \DateTime();
+        $date = new \DateTime();
+        $this->createdAt = $date;
+        $this->updatedAt = $date;
     }
 
     public function getId(): ?int
@@ -172,6 +179,18 @@ class CatPaiement
     public function setCategory(?CatMember $category): self
     {
         $this->category = $category;
+
+        return $this;
+    }
+
+    public function getIndice(): ?int
+    {
+        return $this->indice;
+    }
+
+    public function setIndice(?int $indice): self
+    {
+        $this->indice = $indice;
 
         return $this;
     }

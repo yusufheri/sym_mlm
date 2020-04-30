@@ -13,8 +13,8 @@
                 Membres
                 </a>
                 <div class="dropdown-menu">
-                    <a class="dropdown-item" href="{{ path('admin_member_new') }}" ><span data-feather="user-plus"></span> Nouveau Membre</a>
-                    <a class="dropdown-item" href="{{ path('admin_member_index') }}"><span data-feather="zoom-in"></span> Liste des Membres</a>
+                 <a class="dropdown-item" href="{{ path('admin_member_index') }}"><span data-feather="zoom-in"></span> Liste des Membres</a>
+                    <a class="dropdown-item" href="{{ path('admin_member_new') }}" ><span data-feather="user-plus"></span> Nouveau Membre</a>                   
                 </div>
             </li>
             <li class="nav-item ">
@@ -23,12 +23,12 @@
                 Paiement
                 </a>
                 <div class="dropdown-menu">
-                    <a class="dropdown-item" href="#"><span data-feather="printer"></span> Historique</a>
-                    <a class="dropdown-item" href="#"><span data-feather="plus"></span> Nouveau paiement</a>
+                    <a class="dropdown-item" href="{{ path('admin_paiement_index') }}"><span data-feather="printer"></span> Historique</a>
+                    <a class="dropdown-item" href="{{ path('admin_paiement_new') }}"><span data-feather="plus"></span> Nouveau paiement</a>
                 </div>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="#">
+                <a class="nav-link" href="{{ path('admin_bonus_index') }}">
                 <span data-feather="bar-chart-2"></span>
                 Bonus
                 </a>

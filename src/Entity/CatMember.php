@@ -54,6 +54,11 @@ class CatMember
      */
     private $catPaiements;
 
+    /**
+     * @ORM\Column(type="integer", nullable=true)
+     */
+    private $indice;
+
     public function __construct()
     {
         $this->members = new ArrayCollection();
@@ -180,6 +185,18 @@ class CatMember
                 $catPaiement->setCategory(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getIndice(): ?int
+    {
+        return $this->indice;
+    }
+
+    public function setIndice(?int $indice): self
+    {
+        $this->indice = $indice;
 
         return $this;
     }

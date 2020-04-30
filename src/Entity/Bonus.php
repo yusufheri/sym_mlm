@@ -6,6 +6,7 @@ use Doctrine\ORM\Mapping as ORM;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\BonusRepository")
+ * @ORM\HasLifecycleCallbacks()
  */
 class Bonus
 {
@@ -52,6 +53,17 @@ class Bonus
      * @ORM\JoinColumn(nullable=false)
      */
     private $donor;
+
+    /**
+     * @ORM\PrePersist
+     *
+     * @return void
+     */
+    public function setCreatedAtValue() {
+        $date = new \DateTime();
+        $this->createdAt = $date;
+        $this->updatedAt = $date;
+    }
 
     public function getId(): ?int
     {

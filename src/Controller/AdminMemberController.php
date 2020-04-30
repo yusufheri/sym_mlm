@@ -19,11 +19,27 @@ class AdminMemberController extends AbstractController
      * 
      * @return Response
      */
-    public function index(MemberRepository $repo)
+    public function index(MemberRepository $repo, EntityManagerInterface $manager)
     {
-        $physiques = $repo->findBy(["deletedAt" => null, "category" => 1], ["name" => "ASC"]);
-        $morales = $repo->findBy(["deletedAt" => null, "category" => 2], ["name" => "ASC"]);
+        $physiques =  $manager->createQuery(
+            "SELECT m.name,m.lastname,m.prename,m.createdAt,m.picture,m.id,m.tel1,m.address
+            FROM App\Entity\member m
+            JOIN m.category c
+            WHERE c.indice = 1 AND m.deletedAt is null
+            ORDER BY m.name ASC"
+        )->getResult();
 
+        $morales =  $manager->createQuery(
+            "SELECT m.name,m.lastname,m.prename,m.createdAt,m.picture,m.id,m.tel1,m.address
+            FROM App\Entity\member m
+            JOIN m.category c
+            WHERE c.indice = 2 AND m.deletedAt is null
+            ORDER BY m.name ASC"
+        )->getResult();
+
+        //  $physiques = $repo->findBy(["deletedAt" => null, "category.indice" => 1], ["name" => "ASC"]);
+        //  $morales = $repo->findBy(["deletedAt" => null, "category.indice" => 2], ["name" => "ASC"]);
+       
         return $this->render('admin/member/index.html.twig', [
             'members' => compact('physiques', 'morales'),
         ]);
@@ -51,7 +67,7 @@ class AdminMemberController extends AbstractController
                 if (count($members) < 1) {$verite = true;}
             }   
 
-            $member->setCategory($catMemberRepository->find($id))
+            $member->setCategory($catMemberRepository->findOneBy(["indice" => $id]))
                     ->setToken($uniqid);
            
 

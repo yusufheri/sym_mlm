@@ -1,0 +1,57 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Dashboard : Historique{% endblock %}
+
+{% block stylesheets %}
+     {{ encore_entry_link_tags('css/dashboard') }}
+{% endblock %}
+
+{% block body %}
+    {% include "admin/partials/header.html.twig" %}  
+    <div class="container-fluid">
+        <div class="row">
+            {% include "admin/partials/menu.html.twig" %}
+            <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4"> 
+                 <h1 class="my-3">Historique des paiements</h1>
+                 <div class="container-fluid">
+                    <table class="table table-hover">
+                        <thead>
+                            <tr>
+                                <th>Id</th>
+                                <th>Date</th>
+                                <th>Catégorie</th>
+                                <th>Membre</th>
+                                <th>Motif</th>
+                                <th>Montant</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% set i = 0 %}
+                            {% for item in paiements %}
+                            {% set i = i + 1 %}
+                                <tr>
+                                    <td>{{ i }}</td>
+                                    <td>{{ item.paidAt | date('d-m-Y')}}</td>
+                                    <td>{{ item.payer.category.libelle }}</td>
+                                    <td>{{ item.payer.fullName }}</td>
+                                    <td><span class="badge badge-primary">{{ item.category.libelle }}</span></td>
+                                    <td><b>{{ item.amount | number_format('2', ',', ' ') }} &dollar;</b></td>
+                                    <td>
+                                        <a href="#" class="btn btn-danger"><i class="fas fa-eye"></i></a>
+                                        <a href="#" class="btn btn-primary"><i class="fas fa-edit"></i></a>
+                                    </td>
+                                </tr>
+                            {% endfor %}                           
+                        </tbody>
+                    </table>
+                </div> 
+            </main>
+        </div>
+    </div>
+{% endblock %}
+ {% block javascripts %}
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/feather-icons/4.9.0/feather.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.3/Chart.min.js"></script>
+     {{ encore_entry_script_tags('js/dashboard') }}
+ {% endblock %}

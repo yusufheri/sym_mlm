@@ -2,12 +2,14 @@
 
 namespace App\Entity;
 
+use Symfony\Component\Validator\Constraints as Assert;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\PaiementRepository")
+ * @ORM\HasLifecycleCallbacks()
  */
 class Paiement
 {
@@ -35,11 +37,13 @@ class Paiement
 
     /**
      * @ORM\Column(type="float")
+     * @Assert\NotBlank(message="Prière de saisir ce champ, il est obligatoire")
      */
     private $amount;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
+     *  @Assert\Length(min=10, max=500, minMessage="Ce champ doit faire au moins 10 caractères",maxMessage="Ce champ doit faire tout au plus 500 caractères")
      */
     private $amount_letter;
 
@@ -60,9 +64,30 @@ class Paiement
      */
     private $bonuses;
 
+    /**
+     * @ORM\Column(type="datetime")
+     */
+    private $paidAt;
+
+    /**
+     * @ORM\Column(type="text", nullable=true)
+     */
+    private $comment;
+
     public function __construct()
     {
         $this->bonuses = new ArrayCollection();
+    }
+
+    /**
+     * @ORM\PrePersist
+     *
+     * @return void
+     */
+    public function setCreatedAtValue() {
+        $date = new \DateTime();
+        $this->createdAt = $date;
+        $this->updatedAt = $date;
     }
 
     public function getId(): ?int
@@ -181,6 +206,30 @@ class Paiement
                 $bonus->setDonor(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getPaidAt(): ?\DateTimeInterface
+    {
+        return $this->paidAt;
+    }
+
+    public function setPaidAt(\DateTimeInterface $paidAt): self
+    {
+        $this->paidAt = $paidAt;
+
+        return $this;
+    }
+
+    public function getComment(): ?string
+    {
+        return $this->comment;
+    }
+
+    public function setComment(?string $comment): self
+    {
+        $this->comment = $comment;
 
         return $this;
     }
