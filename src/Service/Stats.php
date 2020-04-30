@@ -40,7 +40,7 @@ class Stats{
              ->setParameter("sunday", $sunday)
             ->getResult();
         
-         dump($data);
+         //dump($data);
 
         return $data;
     }

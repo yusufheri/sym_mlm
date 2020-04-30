@@ -28,13 +28,13 @@
                         </thead>
                         <tbody>
                             {% set i = paginator.start %}
-                            {% for item in paginator.data %}
+                            {% for item in data %}
                             {% set i = i + 1 %}
                                 <tr>
                                     <td>{{ i }}</td>
                                     <td>{{ item.paidAt | date('d-m-Y')}}</td>
                                     <td>{{ item.payer.category.libelle }}</td>
-                                    <td>{{ item.payer.fullName }}</td>
+                                    <td><a href="{{ path('admin_member_show', {'id' : item.payer.id }) }}">{{ item.payer.fullName }}</a></td>
                                     <td><span class="badge badge-primary">{{ item.category.libelle }}</span></td>
                                     <td><b>{{ item.amount | number_format('2', ',', ' ') }} &dollar;</b></td>
                                     <td>

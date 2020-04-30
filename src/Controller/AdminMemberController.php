@@ -46,6 +46,17 @@ class AdminMemberController extends AbstractController
     }
 
     /**
+     * @Route("/dashboard/member/{id}/show", name="admin_member_show")
+     * 
+     * @return Response
+     */
+    public function show(Member $member){
+        return $this->render('admin/member/show.html.twig', [
+            'member' => $member,
+        ]);
+    }
+
+    /**
      * @Route("/dashboard/member/new", name="admin_member_new")
      * 
      * @return Response

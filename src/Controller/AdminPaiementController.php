@@ -26,8 +26,8 @@ class AdminPaiementController extends AbstractController
                     ->setLimit(15)
                     ->setPage($page);
         return $this->render('admin/paiement/index.html.twig', [
-            'paginator' => $paginator,
-            //  'paiements' => $paiementRepository->findBy(["deletedAt" => null],["paidAt" => "DESC"]),
+            'data' => $paginator->getData(["deletedAt" => null], ["paidAt" => "DESC"]),
+            'paginator' => $paginator
         ]);
     }
 

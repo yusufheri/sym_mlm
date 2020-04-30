@@ -1,0 +1,139 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Dashboard : Détails bonus{% endblock %}
+
+{% block stylesheets %}
+     {{ encore_entry_link_tags('css/dashboard') }}
+{% endblock %}
+
+{% block body %}
+    {% include "admin/partials/header.html.twig" %}  
+    <div class="container-fluid">
+        <div class="row">
+            {% include "admin/partials/menu.html.twig" %}
+            <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4"> 
+                {#  <h1 class="my-3">Détails du Membre : {{ member.fullName }}</h1> #}
+                 <div class="container">
+                     <div class="row align-items-center mb-2">
+                        <div class="col-md-3 text-center">
+                            {% if member.picture %}
+                                <img src="{{ vich_uploader_asset(member, 'imageFile') }}" alt="Avatar de {{member.name}}" class="avatar mb-3">
+                            {% else %}
+                                {% if member.category.indice == 1 %}
+                                    <img src="/images/members/avatar.jpg" alt="Avatar de {{member.name}}" class="avatar mb-3">
+                                {% else %}
+                                    <img src="/images/members/entreprise.jpeg" alt="Avatar de {{member.name}}" class="avatar mb-3">
+                                {% endif %}
+                            {% endif %} 
+                            <br>
+                        </div>
+                        <div class="col-md-9 align-items-center">
+                            <h1>{{ member.fullName }} <span class="small">({{member.category.libelle}})</span></h1>
+                            <p class="mb-0">{{ member.description | raw }}.</p>                          
+                        </div>                        
+                    </div>
+                     <hr>
+                    
+                    <ul class="nav nav-tabs">
+                        <li class="nav-item">
+                            <a class="nav-link active" data-toggle="tab" href="#paiement">
+                            <i class="fas fa-user"></i>
+                            Mes paiements</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" data-toggle="tab" href="#bonus">
+                            <i class="fas fa-check"></i>
+                            Mes bonus</a>
+                        </li>
+                    </ul>
+                <div id="myTabContent" class="tab-content">                   
+                    <div class="tab-pane fade active show" id="paiement">
+                        <div class="container-fluid">
+                            <h1>Historique des paiements</h1>
+                            <table class="table table-hover">
+                                <thead>
+                                    <tr>
+                                        <th>Id</th>
+                                        <th>Date </th>
+                                        <th>Motif</th>
+                                        <th class="text-center">Montant</th>
+                                        <th></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% set i = 0 %}
+                                    {% for paiment in member.paiements %}
+                                        <tr>
+                                            {% set i = i+1 %}
+                                            <td>{{i}}</td>
+                                            <td>{{paiment.createdAt | date('d/m/Y') }}</td>
+                                            <td>{{paiment.category.libelle}}</td>                    
+                                            <td class="text-center">
+                                                <b>{{paiment.amount | number_format(2, ',', ' ')}} &dollar;</b>                
+                                            </td>
+                                            <td>                                                
+                                            </td>
+                                        </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>  
+                    </div>
+                    <div class="tab-pane fade" id="bonus">
+                         <div class="container-fluid">
+                            <h1 class="">Historique des bonus</h1>
+                            <table class="table table-hover">
+                                <thead>
+                                    <tr>
+                                        <th>Id</th>
+                                        <th>Date</th>
+                                        <th>Motif</th>
+                                        <th>Provenance</th>
+                                        <th>Bonus</th>
+                                        <th>Etat</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% set i = 0 %}
+                                    {% set total = 0 %}
+                                    {% for bonus in member.bonuses %}
+                                    {% set montant = bonus.amount %}
+                                    {% set total = total + montant %}
+                                        <tr>
+                                            {% set i = i+1 %}
+                                            <td>{{ i }}</td>
+                                            <td>{{ bonus.paidAt | date('d/m/Y') }}</td>
+                                            <td>{{ bonus.donor.category.libelle }}</td>                    
+                                            <td>{{ bonus.donor.payer.fullName }}</td>
+                                            <td><b>{{ montant  | number_format(2, ',', ' ')}} &dollar;</b> </td>
+                                            <td><span class="badge badge-info"></span></td>
+                                        </tr>
+                                    {% endfor %}
+                                </tbody>
+                                <tfooter>
+                                    <tr>
+                                        <td></td>                               
+                                        <td><h3>Total bonus</h3></td>
+                                        <td colspan="3"><h3 class="float-right">{{ total | number_format('2', ',', ' ') }} &dollar; </h3></td>
+                                        <td></td>
+                                    </tr>
+                                </tfooter>
+                            </table>
+                        </div>  
+                    </div>
+                </div>
+
+
+
+
+
+                 </div>
+            </main>
+        </div>
+    </div>
+{% endblock %}
+ {% block javascripts %}
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/feather-icons/4.9.0/feather.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.3/Chart.min.js"></script>
+     {{ encore_entry_script_tags('js/dashboard') }}
+ {% endblock %}

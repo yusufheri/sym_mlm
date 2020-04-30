@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Bonus;
+use App\Entity\Member;
 use App\Service\Paginator;
 use App\Repository\BonusRepository;
 use Doctrine\ORM\EntityManagerInterface;
@@ -14,24 +15,34 @@ class AdminBonusController extends AbstractController
     /**
      * @Route("/admin/bonus/{page<\d+>?1}", name="admin_bonus_index")
      */
-    public function index(BonusRepository $bonusRepository, EntityManagerInterface $manager,$page, Paginator $paginator)
+    public function index($page, Paginator $paginator)
     {
         $paginator  ->setEntityClass(Bonus::class)
                     ->setLimit(15)
                     ->setPage($page);
+        $data = $paginator->getDataFromQuery(
+            'SELECT m.id,m.name as beneficiary,m.token,c.libelle, SUM(b.amount) AS amount 
+            FROM App\Entity\Bonus b
+            JOIN b.beneficiary m
+            JOIN m.category c
+            WHERE b.deletedAt IS NULL
+            GROUP BY m.id
+            '
+        );
         return $this->render('admin/bonus/index.html.twig', [
             'paginator' => $paginator,
-            //  'bonuses' => $bonusRepository->findBy(["deletedAt" => null]),
+            'data' => $data
         ]);
     }
 
     /**
      * @Route("/admin/bonus/{id}/show", name="admin_bonus_show")
      */
-    public function show(Bonus $bonus)
+    public function show(Member $member,BonusRepository $bonusRepository)
     {
+        //  dump($member);
         return $this->render('admin/bonus/show.html.twig', [
-            'controller_name' => 'AdminBonusController',
+            'member' => $member,
         ]);
     }
 }

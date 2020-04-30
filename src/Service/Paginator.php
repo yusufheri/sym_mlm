@@ -64,11 +64,18 @@ class Paginator{
         return ($this->currentPage - 1) * $this->limit;
     }
 
-    public function getData(){
+    public function getData($criteria = [], $order = []){
 
         $offset = ($this->currentPage - 1)*$this->limit;
 
-        $data = $this->manager->getRepository($this->entityClass)->findBy([],[],$this->limit, $offset);
+        $data = $this->manager->getRepository($this->entityClass)->findBy($criteria, $order, $this->limit, $offset);
+
+        return $data;
+    }
+
+    public function getDataFromQuery($query){
+
+        $data = $this->manager->createQuery($query)->getResult();
 
         return $data;
     }

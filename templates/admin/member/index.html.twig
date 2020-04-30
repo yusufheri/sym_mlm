@@ -47,13 +47,13 @@
                                             {% set i = i+1 %}
                                             <td>{{i}}</td>
                                             <td>{{member.createdAt | date('d/m/Y') }}</td>
-                                            <td>
+                                            <td><a href="{{ path('admin_member_show', {'id' : member.id }) }}">
                                                 {% if member.picture %}
                                                     <img src="{{ vich_uploader_asset(member, 'imageFile') }}" alt="Avatar de {{member.name}}" class="avatar avatar-mini">
                                                 {% else %}
                                                     <img src="/images/members/avatar.jpg" alt="Avatar de {{member.name}}" class="avatar avatar-mini">
                                                 {% endif %}                       
-                                                {{member.name}}
+                                                {{member.name}}</a>
                                             </td>                    
                                             <td class="text-center">
                                                 {{member.tel1}}                  
@@ -62,7 +62,7 @@
                                             {{member.address}}    
                                             </td>
                                             <td>
-                                                <a href="#" class="btn btn-info"><i class="fas fa-eye"></i></a>
+                                                <a href="{{ path('admin_member_show', {'id' : member.id }) }}" class="btn btn-info"><i class="fas fa-eye"></i></a>
                                                 <a href="#" class="btn btn-danger"
                                                 onclick="return confirm('Voulez-vous supprimer ce membre ?');"><i class="fas fa-trash"></i></a>
                                             </td>
@@ -93,13 +93,13 @@
                                             {% set i = i+1 %}
                                             <td>{{i}}</td>
                                             <td>{{member.createdAt | date('d/m/Y') }}</td>
-                                            <td>
+                                            <td><a href="{{ path('admin_member_show', {'id' : member.id }) }}">
                                                  {% if member.picture %}
                                                     <img src="{{ vich_uploader_asset(member, 'imageFile') }}" alt="Avatar de {{member.name}}" class="avatar avatar-mini">
                                                 {% else %}
                                                     <img src="/images/members/entreprise.jpeg" alt="Avatar de {{member.name}}" class="avatar avatar-mini">
                                                 {% endif %} 
-                                                 {{member.name}}
+                                                {{member.name}}</a>
                                             </td>                    
                                             <td class="text-center">
                                                 {{member.tel1}}                  
@@ -108,7 +108,7 @@
                                             {{member.address}}    
                                             </td>
                                             <td>
-                                                <a href="#" class="btn btn-info"><i class="fas fa-eye"></i></a>
+                                                <a href="{{ path('admin_member_show', {'id' : member.id }) }}" class="btn btn-info"><i class="fas fa-eye"></i></a>
                                                 <a href="#" class="btn btn-danger" onclick="return confirm('Voulez-vous supprimer ce membre ?');"><i class="fas fa-trash"></i></a>
                                             </td>
                                         </tr>

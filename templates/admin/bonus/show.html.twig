@@ -12,8 +12,70 @@
         <div class="row">
             {% include "admin/partials/menu.html.twig" %}
             <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4"> 
-                 <h1 class="my-3">Détails du Membre</h1>
-                 
+                {#  <h1 class="my-3">Détails du Membre : {{ member.fullName }}</h1> #}
+                 <div class="container">
+                     <div class="row align-items-center mb-2">
+                        <div class="col-md-3 text-center">
+                            {% if member.picture %}
+                                <img src="{{ vich_uploader_asset(member, 'imageFile') }}" alt="Avatar de {{member.name}}" class="avatar mb-3">
+                            {% else %}
+                                {% if member.category.indice == 1 %}
+                                    <img src="/images/members/avatar.jpg" alt="Avatar de {{member.name}}" class="avatar mb-3">
+                                {% else %}
+                                    <img src="/images/members/entreprise.jpeg" alt="Avatar de {{member.name}}" class="avatar mb-3">
+                                {% endif %}
+                            {% endif %} 
+                            <br>
+                        </div>
+                        <div class="col-md-9 align-items-center">
+                            <h1>{{ member.fullName }} <span class="small">({{member.category.libelle}})</span></h1>
+                            <p class="mb-0">{{ member.description | raw }}.</p>                          
+                        </div>                        
+                    </div>
+                     <hr>                 
+                      
+                    <div class="container-fluid">
+                        <h1 class="">Historique des bonus</h1>
+                        <table class="table table-hover">
+                            <thead>
+                                <tr>
+                                    <th>Id</th>
+                                    <th>Date</th>
+                                    <th>Motif</th>
+                                    <th>Provenance</th>
+                                    <th>Bonus</th>
+                                    <th>Etat</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% set i = 0 %}
+                                {% set total = 0 %}
+                                {% for bonus in member.bonuses %}
+                                {% set montant = bonus.amount %}
+                                {% set total = total + montant %}
+                                    <tr>
+                                        {% set i = i+1 %}
+                                        <td>{{ i }}</td>
+                                        <td>{{ bonus.paidAt | date('d/m/Y') }}</td>
+                                        <td>{{ bonus.donor.category.libelle }}</td>                    
+                                        <td><a href="{{ path('admin_member_show', {'id' : bonus.donor.payer.id }) }}">{{ bonus.donor.payer.fullName }}</a></td>
+                                        <td><b>{{ montant  | number_format(2, ',', ' ')}} &dollar;</b> </td>
+                                        <td><span class="badge badge-info"></span></td>
+                                    </tr>
+                                {% endfor %}
+                            </tbody>
+                            <tfooter>
+                                <tr>
+                                    <td></td>                               
+                                    <td><h3>Total bonus</h3></td>
+                                    <td colspan="3"><h3 class="float-right">{{ total | number_format('2', ',', ' ') }} &dollar; </h3></td>
+                                    <td></td>
+                                </tr>
+                            </tfooter>
+                        </table>
+                    </div>  
+                    
+                 </div>
             </main>
         </div>
     </div>

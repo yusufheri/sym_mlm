@@ -178,10 +178,16 @@ class Member
      */
     private $paiements;
 
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Bonus", mappedBy="beneficiary")
+     */
+    private $bonuses;
+
     public function __construct()
     {
         $this->members = new ArrayCollection();
         $this->paiements = new ArrayCollection();
+        $this->bonuses = new ArrayCollection();
     }
 
     /**
@@ -558,6 +564,14 @@ class Member
         $this->description = $description;
 
         return $this;
+    }
+
+    /**
+     * @return Collection|Bonus[]
+     */
+    public function getBonuses(): Collection
+    {
+        return $this->bonuses;
     }
 
     /**
