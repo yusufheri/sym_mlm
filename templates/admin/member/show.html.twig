@@ -22,13 +22,16 @@
                                 {% if member.category.indice == 1 %}
                                     <img src="/images/members/avatar.jpg" alt="Avatar de {{member.name}}" class="avatar mb-3">
                                 {% else %}
-                                    <img src="/images/members/entreprise.jpeg" alt="Avatar de {{member.name}}" class="avatar mb-3">
+                                    <img src="/images/logo.png" alt="Avatar de {{member.name}}" class="avatar mb-3">
                                 {% endif %}
                             {% endif %} 
                             <br>
                         </div>
                         <div class="col-md-9 align-items-center">
-                            <h1>{{ member.fullName }} <span class="small">({{member.category.libelle}})</span></h1>
+                            <h1>{{ member.fullName }} <span class="small">({{member.category.libelle}})</span></h1><br>
+                            {% if member.parrain %}
+                                <h3>Parrain direct : <a href="{{ path('admin_member_show', {'id' : member.parrain.id}) }}">{{ member.parrain.fullName }}</a></h3>
+                            {% endif %}  
                             <p class="mb-0">{{ member.description | raw }}.</p>                          
                         </div>                        
                     </div>

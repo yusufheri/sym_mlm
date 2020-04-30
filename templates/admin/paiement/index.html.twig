@@ -12,7 +12,8 @@
         <div class="row">
             {% include "admin/partials/menu.html.twig" %}
             <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4"> 
-                 <h1 class="my-3">Historique des paiements</h1>
+                 <h1 class="my-3">Historique des paiements: <span style="color : blue;">{{ total | number_format(2,',',' ')}} &dollar;</span>
+                 <small>(Situation générale)</small></h1>
                  <div class="container-fluid">
                     <table class="table table-hover">
                         <thead>

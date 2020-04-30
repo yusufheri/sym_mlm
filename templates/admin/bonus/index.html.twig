@@ -36,8 +36,8 @@
                                     <td>{{ item.libelle }}</td>
                                     <td>{{ item.token }}</td>
                                     <td><a href="{{ path('admin_member_show', {'id' : item.id }) }}">{{ item.beneficiary }}</a></td>
-                                    <td><b>{{ item.amount | number_format('2', ',', ' ') }} &dollar;</b></td>
-                                    <td>
+                                    <td><b>{{ item.amount | number_format('1', ',', ' ') }} &dollar;</b></td>
+                                    <td width="20%">
                                         <a href="{{ path('admin_bonus_show', {'id' : item.id}) }}" class="btn btn-info"><i class="fas fa-eye"></i>
                                         <b>Plus de détails</b></a>
                                     </td>

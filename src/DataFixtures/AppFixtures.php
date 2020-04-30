@@ -99,7 +99,43 @@ class AppFixtures extends Fixture
         $manager->persist($commune2);
         $communes[] = $commune2;
 
-        for($i=1; $i < 3; $i++){
+
+        $ancentre = new Member();
+        $catMembreId = 1;
+        $unique = strtoupper(substr(uniqid(""), 8, 6));
+
+        $ancentre ->setname("GROUPE DE NEHEMIE POUR LE DEVELOPPEMENT COMM.")
+                ->setLastname("(G.N.D.C)")
+                ->setPrename("")
+                ->setToken($unique)
+                ->setTel1($faker->e164PhoneNumber)
+                ->setTel2($faker->e164PhoneNumber)
+                ->setAddress($faker->address)                  
+                ->setEmail( ($catMembreId == 0)?$faker->freeEmail:$faker->companyEmail)
+                ->setDescription('<p>C est une organisation non gouvernemenatle pour le développement communautaire, implantée à Kinshasa, capitale de 
+                la République Démocratique du Congo.</p>')
+                ->setDateNais($faker->dateTime())
+                ->setLieuNais("Kinshasa")
+                ->setSexe($Sexes[mt_rand(0, count($Sexes) - 1)])
+                ->setCategory($categories[1])
+                ->setCommune($communes[mt_rand(0, count($communes) - 1)])
+                ->setProvince($provinces[mt_rand(0, count($provinces) - 1)])
+                ->setWebsite($faker->url);
+
+        $manager->persist($ancentre);
+
+        $paiement = new Paiement();
+        $PaidAt = new \DateTime('now');
+        $PaidAt = (clone $PaidAt)->modify("- 5 days");
+        $paiement   ->setAmount(($catMembreId == 0)? 10: 50 )
+                    ->setPayer($ancentre)
+                    ->setCategory($catPaiements[0])
+                    ->setAmountLetter(($catMembreId == 0)? "Dix dollars américains": "Cinquante dollars américains" )
+                    ->setPaidAt($PaidAt);
+    $manager->persist($paiement);
+
+
+        for($i=1; $i < 5; $i++){
             $member = new Member();
             $catMembreId = mt_rand(0, count($categories) - 1);
             $unique = strtoupper(substr(uniqid(""), 8, 6));
@@ -119,6 +155,7 @@ class AppFixtures extends Fixture
                     ->setCategory($categories[$catMembreId])
                     ->setCommune($communes[mt_rand(0, count($communes) - 1)])
                     ->setProvince($provinces[mt_rand(0, count($provinces) - 1)])
+                    ->setParrain($ancentre)
                     ->setWebsite($faker->url);
 
             $manager->persist($member);
@@ -133,6 +170,13 @@ class AppFixtures extends Fixture
                         ->setAmountLetter(($catMembreId == 0)? "Dix dollars américains": "Cinquante dollars américains" )
                         ->setPaidAt($PaidAt);
             $manager->persist($paiement);
+
+            $bonus = new Bonus();
+            $bonus              ->setBeneficiary($member->getParrain())
+                                ->setAmount($paiement->getAmount() * 10 /100)
+                                ->setDonor($paiement)
+                                ->setPaidAt($paiement->getPaidAt());
+                                $manager->persist($bonus);
 
             
 
@@ -170,6 +214,13 @@ class AppFixtures extends Fixture
                 $manager->persist($paiement);
 
                 $bonus = new Bonus();
+                $bonus              ->setBeneficiary($member_child->getParrain()->getParrain())
+                                    ->setAmount($paiement->getAmount() * 5 /100)
+                                    ->setDonor($paiement)
+                                    ->setPaidAt($paiement->getPaidAt());
+                                    $manager->persist($bonus);
+
+                $bonus = new Bonus();
                 $bonus              ->setBeneficiary($member_child->getParrain())
                                     ->setAmount($paiement->getAmount() * 10 /100)
                                     ->setDonor($paiement)
@@ -182,7 +233,7 @@ class AppFixtures extends Fixture
     
                     $unique = strtoupper(substr(uniqid(""), 7, 6));
     
-                    $member_child2   ->setname(($catMembreId == 0)?$faker->name():$faker->company)
+                    $member_child2  ->setname(($catMembreId == 0)?$faker->name():$faker->company)
                                     ->setLastname("")
                                     ->setPrename("")
                                     ->setToken($unique)

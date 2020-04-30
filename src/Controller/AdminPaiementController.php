@@ -22,12 +22,19 @@ class AdminPaiementController extends AbstractController
      */
     public function index(PaiementRepository $paiementRepository,$page, Paginator $paginator)
     {
+        $tab = $paiementRepository->findBy(["deletedAt" => null],[]);
+        $total = 0; 
+
+        for ($i=0; $i < count($tab); $i++) { 
+            $total += $tab[$i]->getAmount();
+        }
         $paginator  ->setEntityClass(Paiement::class)
                     ->setLimit(15)
                     ->setPage($page);
         return $this->render('admin/paiement/index.html.twig', [
             'data' => $paginator->getData(["deletedAt" => null], ["paidAt" => "DESC"]),
-            'paginator' => $paginator
+            'paginator' => $paginator,
+            'total' => $total
         ]);
     }
 
