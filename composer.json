@@ -31,10 +31,10 @@
         "symfony/web-link": "5.0.*",
         "symfony/webpack-encore-bundle": "^1.7",
         "symfony/yaml": "5.0.*",
-        "vich/uploader-bundle": "^1.13"
+        "vich/uploader-bundle": "^1.13",
+        "doctrine/doctrine-fixtures-bundle": "^3.3"
     },
-    "require-dev": {
-        "doctrine/doctrine-fixtures-bundle": "^3.3",
+    "require-dev": {       
         "symfony/debug-pack": "*",
         "symfony/maker-bundle": "^1.0",
         "symfony/profiler-pack": "*",
