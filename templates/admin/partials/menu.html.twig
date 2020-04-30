@@ -1,24 +1,28 @@
   <nav class="col-md-2 d-none d-md-block bg-light sidebar"> 
     <div class="sidebar-sticky">
+        {% set route_name = app.request.attributes.get('_route') %}       
         <ul class="nav flex-column">
             <li class="nav-item">
-                <a class="nav-link active" href="{{ path('admin_index') }}">
+                <a class="nav-link {% if route_name == 'admin_index' %} active {% endif %}" href="{{ path('admin_index') }}">
                 <span data-feather="home"></span>
                 Dashboard <span class="sr-only">2</span>
                 </a>
             </li>
             <li class="nav-item ">
-                <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <a href="#" class="nav-link dropdown-toggle 
+                {% if route_name == 'admin_member_index' or route_name == 'admin_member_new' or 'admin_member' in route_name  %} active {% endif %}" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                 <span data-feather="users"></span>
                 Membres
                 </a>
                 <div class="dropdown-menu">
-                 <a class="dropdown-item" href="{{ path('admin_member_index') }}"><span data-feather="zoom-in"></span> Liste des Membres</a>
+                    <a class="dropdown-item" href="{{ path('admin_member_index') }}"><span data-feather="zoom-in"></span> Liste des Membres</a>
                     <a class="dropdown-item" href="{{ path('admin_member_new') }}" ><span data-feather="user-plus"></span> Nouveau Membre</a>                   
                 </div>
             </li>
             <li class="nav-item ">
-                <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <a href="#" class="nav-link dropdown-toggle 
+                {% if route_name == 'admin_paiement_index' or route_name == 'admin_paiement_new'  %} active {% endif %}
+                 " data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                 <span data-feather="dollar-sign"></span>
                 Paiement
                 </a>
@@ -28,7 +32,7 @@
                 </div>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="{{ path('admin_bonus_index') }}">
+                <a class="nav-link {% if route_name == 'admin_bonus_index' or 'admin_bonus' in route_name %} active {% endif %}" href="{{ path('admin_bonus_index') }}">
                 <span data-feather="bar-chart-2"></span>
                 Bonus
                 </a>
@@ -43,7 +47,7 @@
         </h6>
         <ul class="nav flex-column mb-2">
             <li class="nav-item">
-                <a class="nav-link" href="{{ path('admin_cat_paiement') }}">
+                <a class="nav-link {% if route_name == 'admin_cat_paiement' %} active {% endif %}" href="{{ path('admin_cat_paiement') }}">
                 <span data-feather="file-text"></span>
                 Type paiement
                 </a>

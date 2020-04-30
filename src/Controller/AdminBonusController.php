@@ -13,7 +13,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 class AdminBonusController extends AbstractController
 {
     /**
-     * @Route("/admin/bonus/{page<\d+>?1}", name="admin_bonus_index")
+     * @Route("/dashboard/bonus/{page<\d+>?1}", name="admin_bonus_index")
      */
     public function index($page, Paginator $paginator)
     {
@@ -36,7 +36,7 @@ class AdminBonusController extends AbstractController
     }
 
     /**
-     * @Route("/admin/bonus/{id}/show", name="admin_bonus_show")
+     * @Route("/dashboard/bonus/{id}/show", name="admin_bonus_show")
      */
     public function show(Member $member,BonusRepository $bonusRepository)
     {

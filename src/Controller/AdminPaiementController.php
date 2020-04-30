@@ -16,7 +16,7 @@ use Symfony\Component\Routing\Annotation\Route;
 class AdminPaiementController extends AbstractController
 {
     /**
-     * @Route("/admin/paiement/{page<\d+>?1}", name="admin_paiement_index")
+     * @Route("/dashboard/paiement/{page<\d+>?1}", name="admin_paiement_index")
      * 
      * @return Response
      */
@@ -32,7 +32,7 @@ class AdminPaiementController extends AbstractController
     }
 
     /**
-     * @Route("/admin/paiement/new", name="admin_paiement_new")
+     * @Route("/dashboard/paiement/new", name="admin_paiement_new")
      * 
      * @return Response
      */
@@ -111,7 +111,7 @@ class AdminPaiementController extends AbstractController
     }
 
     /**
-     * @Route("/admin/paiement/{id}/edit", name="admin_paiement_edit")
+     * @Route("/dashboard/paiement/{id}/edit", name="admin_paiement_edit")
      * 
      * @return Response
      */
@@ -120,7 +120,7 @@ class AdminPaiementController extends AbstractController
     }
 
     /**
-     * @Route("/admin/paiement/{id}/delete", name="admin_paiement_delete")
+     * @Route("/dashboard/paiement/{id}/delete", name="admin_paiement_delete")
      * 
      * @return Response
      */
