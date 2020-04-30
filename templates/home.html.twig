@@ -4,7 +4,7 @@
 {% block body %}
     {% include "partials/header.html.twig" %} 
      <div class="container">
-            <div class="jumbotron mt-3">
+           {#  <div class="jumbotron mt-3">
                 <h1 class="display-3">Bienvenue sur KomptApp !</h1>
                 <p class="lead">Komptaap, vous permet de gérer à distance vos finances sans moindre inquiétude !</p>
                 <hr class="my-4">
@@ -12,23 +12,33 @@
                 <p class="lead">
                     <a class="btn btn-primary btn-lg" href="{{ path('admin_index') }}" role="button">Connectez-vous</a>
                 </p>
-            </div>
+            </div> #}
 
             <h2 class="h1 my-5">Derniers nouveaux membres </h2>
 
             <div class="row">
-                {% for i in 1..8 %}
+                {% for member in members %}
                     <div class="col-md-3">
                         <div class="card bg-light mb-3">
-                            <img src="http://placehold.it/400x400" alt="Membre {{ i }}" style="width: 100%; height: 200px; display: block;">
+                            {% if member.picture %}
+                                <img src="{{ vich_uploader_asset(member, 'imageFile') }}" alt="Avatar de {{member.fullName}}" style="width: 100%; height: 200px; display: block;" class="avatar mb-3">
+                            {% else %}
+                                {% if member.category.indice == 1 %}
+                                    <img src="/images/members/avatar.jpg" alt="Avatar de {{member.fullName}}" style="width: 100%; height: 200px; display: block;" class="avatar mb-3">
+                                {% else %}
+                                    <img src="/images/members/entreprise.jpeg" alt="Avatar de {{member.fullName}}" style="width: 100%; height: 200px; display: block;" class="avatar mb-3">
+                                {% endif %}
+                            {% endif %} 
+
                             <div class="card-body">
                                 <h4 class="card-title">
-                                    Membre n°{{ i }}
+                                    {{ member.fullName }}
                                 </h4>
-                                <p class="card-text">
-                                    Lorem ipsum dolor sit amet consectetur, adipisicing elit.
+                                <p>
+                                    {{ member.category.libelle  }} <br>
+                                    {{ member.createdAt | date('d-m-Y H:i') }}
                                 </p>
-                                <a href="#" class="btn btn-secondary">En savoir plus !</a>
+                                <a href="{{ path('admin_member_show', {'id' : member.id}) }}" class="btn btn-success">En savoir plus !</a>
                             </div>
                         </div>
                     </div>
