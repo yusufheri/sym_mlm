@@ -134,6 +134,10 @@ class User implements UserInterface
         return $this->id;
     }
 
+    public function getFullName(){
+        return "$this->firstname $this->lastname";
+    }
+
     public function getConfirmPassword(){
         return $this->confirmPassword;
     }

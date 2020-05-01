@@ -10,7 +10,12 @@
                 {% for user in users %}
                     <div class="col-md-3 ">
                         <div class="card bg-light align-items-center mb-3">
-                            <img src="{{user.picture}}" alt="Avatar de {{user.email}}" class="avatar  my-3">
+                            {% if app.user.local == true %}
+                                <img src="{{ vich_uploader_asset(user, 'imageFile') }}" alt="Avatar de {{user.fullName}}" class="avatar  my-3">
+                            {% else %}
+                                <img src="{{user.picture}}" alt="Avatar de {{user.fullName}}" class="avatar  my-3">     
+                            {% endif %}
+                            
                             {# {% if user.picture %}
                                 <img src="{{ vich_uploader_asset(member, 'imageFile') }}" alt="Avatar de {{member.fullName}}" style="width: 100%; height: 200px; display: block;" class="avatar mb-3">
                             {% else %}
