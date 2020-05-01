@@ -43,8 +43,16 @@ class User implements UserInterface
     /**
      * @ORM\Column(type="string", length=255)
      * @Assert\NotBlank(message="Ce champ ne peut pas être vide")
+     * @Assert\Length(min=6, max=255, minMessage="Le mot de passe doit contenir au moins 6 caractères",
+     *  maxMessage="Le mot de passe doit contenir au maximum 255 caractères")
      */
     private $hash;
+
+    /**
+     * @Assert\EqualTo(propertyPath="hash", message="Vous n'avez pas correctement confirmé votre mot de passe !")
+     * 
+     */
+    private $confirmPassword;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
@@ -54,6 +62,7 @@ class User implements UserInterface
 
     /**
      * @ORM\Column(type="text", nullable=true)
+     *  @Assert\Length(min=50, max=255, minMessage="La description  doit faire au moins 50 caractères",maxMessage=" Au plus 255 caractères")
      */
     private $description;
 
@@ -90,6 +99,16 @@ class User implements UserInterface
      */
     private $updatedAt;
 
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $firstname;
+
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $lastname;
+
     public function __construct()
     {
         $this->roles = new ArrayCollection();
@@ -113,6 +132,17 @@ class User implements UserInterface
     public function getId(): ?int
     {
         return $this->id;
+    }
+
+    public function getConfirmPassword(){
+        return $this->confirmPassword;
+    }
+
+    public function setConfirmPassword($confirmPassword): self{
+        
+        $this->confirmPassword = $confirmPassword;
+
+        return $this;
     }
 
     public function getCreatedAt(): ?\DateTimeInterface
@@ -289,6 +319,30 @@ class User implements UserInterface
 
     public function eraseCredentials(){
         
+    }
+
+    public function getFirstname(): ?string
+    {
+        return $this->firstname;
+    }
+
+    public function setFirstname(string $firstname): self
+    {
+        $this->firstname = $firstname;
+
+        return $this;
+    }
+
+    public function getLastname(): ?string
+    {
+        return $this->lastname;
+    }
+
+    public function setLastname(string $lastname): self
+    {
+        $this->lastname = $lastname;
+
+        return $this;
     }
 
 }

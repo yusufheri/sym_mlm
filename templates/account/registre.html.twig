@@ -1,0 +1,43 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Inscription :: KomptApp{% endblock %}
+
+{% block body %}
+    {% include "partials/header.html.twig" %} 
+    <div class="container">       
+        <div class="row">
+            <div class="col-md  bg-light mt-3">
+                <h1 class="my-5 text-center">
+                <img src="/images/logo.png" alt="Logo de l'entreprise" class="avatar avatar-medium"> 
+                Création d'un compte administrateur</h1>
+                <hr>
+                {{ form_start(form) }}
+                <div class="row">
+                    <div class="col-md">{{ form_row(form.firstname) }}</div>
+                    <div class="col-md">{{ form_row(form.lastname) }}</div>
+                </div>
+                <div class="row">
+                    <div class="col-md">{{ form_row(form.email) }}</div>
+                    <div class="col-md">{{ form_row(form.imageFile) }}</div>
+                </div>
+                <div class="row">
+                    <div class="col-md">{{ form_row(form.hash) }}</div>
+                    <div class="col-md">{{ form_row(form.confirmPassword) }}</div>
+                </div>
+                 
+                {{ form_widget(form) }}
+                    <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}" >
+                    <div class="alert alert-primary clearfix my-5">
+                        <h2 class="alert-heading">Sauvegarder les informations</h2>
+                        <p>Vous êtes sur le point d'enregistrer une personne qui aura accès à l'espace d'administration de l'application .</p>
+                        <p>Que le nouvel utilisateur puisse vérifier sa boîte de réception pour activer son compte.</p>
+                        <button type="submit" class="btn btn-success float-right">
+                            <i class="fas fa-check"></i>
+                            Enregistrer un nouvel utilisateur
+                        </button>
+                    </div>
+                {{ form_end(form) }}
+            </div>
+        </div>
+    </div>
+{% endblock %}
