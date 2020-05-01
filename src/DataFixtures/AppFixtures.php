@@ -2,23 +2,53 @@
 
 namespace App\DataFixtures;
 
-use App\Entity\Bonus;
-use App\Entity\CatMember;
-use App\Entity\CatPaiement;
-use App\Entity\Commune;
 use Faker\Factory;
+use App\Entity\Sexe;
+use App\Entity\User;
+use App\Entity\Bonus;
 use App\Entity\Member;
+use App\Entity\Commune;
 use App\Entity\Paiement;
 use App\Entity\Province;
-use App\Entity\Sexe;
+use App\Entity\CatMember;
+use App\Entity\CatPaiement;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\Persistence\ObjectManager;
+use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
 class AppFixtures extends Fixture
 {
+    private $encoder;
+
+    public function __construct(UserPasswordEncoderInterface $encoder){
+        $this->encoder = $encoder;
+    }
+
     public function load(ObjectManager $manager)
     {
         $faker = Factory::create('fr_FR'); 
+
+        // Gestion des utilisateurs
+        for($i = 0; $i < 5 ; $i++){
+            $user = new User();
+
+            $genre = $faker->randomElement(['male', 'female']);
+            $picture = "https://randomuser.me/api/portraits/";
+            $pictureId  = $faker->numberBetween(1, 99). ".jpg";
+
+            $picture .= ($genre == 'male' ? "men/" : "women/").$pictureId;
+
+            $psw = $this->encoder->encodePassword($user, 'password');
+
+            $user   -> setEmail($faker->email)
+                    -> setPicture($picture)
+                    -> setHash($psw)
+                    -> setState(true)
+                    -> setDescription($faker->sentence(10));
+
+            $manager->persist($user);
+            
+        }
 
          //Gestion des Sexe
          $Sexes = [];

@@ -1,0 +1,44 @@
+{% extends "base.html.twig" %}
+
+{% block title %}Administration des Utilsateurs::{% endblock %}
+{% block body %}
+    {% include "partials/header.html.twig" %} 
+     <div class="container">
+            <h2 class="h1 my-5">Gestion des utilisateurs </h2>
+
+            <div class="row">
+                {% for user in users %}
+                    <div class="col-md-3 ">
+                        <div class="card bg-light align-items-center mb-3">
+                            <img src="{{user.picture}}" alt="Avatar de {{user.email}}" class="avatar  my-3">
+                            {# {% if user.picture %}
+                                <img src="{{ vich_uploader_asset(member, 'imageFile') }}" alt="Avatar de {{member.fullName}}" style="width: 100%; height: 200px; display: block;" class="avatar mb-3">
+                            {% else %}
+                                {% if member.category.indice == 1 %}
+                                    <img src="/images/members/avatar.jpg" alt="Avatar de {{member.fullName}}" style="width: 100%; height: 200px; display: block;" class="avatar mb-3">
+                                {% else %}
+                                    <img src="/images/logo.png" alt="Avatar de {{member.fullName}}" style="width: 100%; height: 200px; display: block;" class="avatar mb-3">
+                                {% endif %}
+                            {% endif %}  #}
+
+                            <div class="card-body ">
+
+                                <b><small>{{ user.email }}</small></b><br\>
+                                <p>
+                                    <div class="custom-control custom-switch">
+                                        <input type="checkbox" class="custom-control-input" id="customSwitch1"  {% if user.state == true %}checked{% endif %}>
+                                        <label class="custom-control-label" for="customSwitch1">
+                                            {% if user.state == true %}Activé{% else %}Bloqué{% endif %}
+                                        </label>
+                                    </div>
+                                </p>
+                                <a href="#" class="btn btn-warning">En savoir plus !</a>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+       </div>
+
+{% endblock %}
+{# GROUPE DE NEHEMIE POUR LE DEVELOPPEMENT COMMUNAUTAIRE #}

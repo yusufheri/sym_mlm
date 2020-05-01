@@ -9,9 +9,29 @@
     <div class="collapse navbar-collapse" id="navbarColor01">
           
         <ul class="navbar-nav ml-auto">
-            <li class="nav-item">
-                <a href="{{ path('admin_index') }}" class="nav-link">Connexion</a>
-            </li>
+             {% if app.user %}
+                <li class="nav-item dropdown">
+                    <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" id="accountDropdownLink">
+                        <img src="{{app.user.picture}}" alt="Avatar de {{app.user.email}}" class="avatar avatar-mini">
+                        {{app.user.email}}
+                    </a>
+
+                    <div class="dropdown-menu dropdown-menu-right" aria-labellebdy="accountDropdownLink">
+                        {% if is_granted('ROLE_ADMIN') %}
+                            <a href="{{ path('account_index') }}" target="_blank" class="dropdown-item">Page d'administration</a>
+                            <div class="dropdown-divider"></div>
+                        {% endif %}
+                        <a href="#" class="dropdown-item">Mon compte</a>
+                        <a href="#" class="dropdown-item">Modifier mon profil</a>
+                        <div class="dropdown-divider"></div>
+                        <a href="{{ path('account_logout') }}" class="dropdown-item">Déconnexion</a>
+                    </div>
+                </li>
+            {% else %}
+                <li class="nav-item">
+                    <a href="{{ path('account_login') }}" class="nav-link">Connexion</a>
+                </li>
+            {% endif %}
         </ul>
     </div>            
 </nav>
