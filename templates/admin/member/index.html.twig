@@ -29,92 +29,13 @@
                     <div class="tab-pane fade active show" id="physique">
                         <div class="container-fluid">
                             <h1>Personnes physiques</h1>
-                            <table class="table table-hover">
-                                <thead>
-                                    <tr>
-                                        <th>Id</th>
-                                        <th>Date adhésion</th>
-                                        <th>Membre</th>
-                                        <th class="text-center">Téléphone</th>
-                                        <th>Adresse</th>
-                                        <th width="15%" class="text-center">Actions</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    {% set i = 0 %}
-                                    {% for member in members.physiques %}
-                                        <tr>
-                                            {% set i = i+1 %}
-                                            <td>{{i}}</td>
-                                            <td>{{member.createdAt | date('d/m/Y') }}</td>
-                                            <td><a href="{{ path('admin_member_show', {'id' : member.id }) }}">
-                                                {% if member.picture %}
-                                                    <img src="{{ vich_uploader_asset(member, 'imageFile') }}" alt="Avatar de {{member.name}}" class="avatar avatar-mini">
-                                                {% else %}
-                                                    <img src="/images/members/avatar.jpg" alt="Avatar de {{member.name}}" class="avatar avatar-mini">
-                                                {% endif %}                       
-                                                {{member.name}}</a>
-                                            </td>                    
-                                            <td class="text-center">
-                                                {{member.tel1}}                  
-                                            </td>
-                                            <td >
-                                            {{member.address}}    
-                                            </td>
-                                            <td>
-                                                <a href="{{ path('admin_member_show', {'id' : member.id }) }}" class="btn btn-info"><i class="fas fa-eye"></i></a>
-                                                <a href="#" class="btn btn-danger"
-                                                onclick="return confirm('Voulez-vous supprimer ce membre ?');"><i class="fas fa-trash"></i></a>
-                                            </td>
-                                        </tr>
-                                    {% endfor %}
-                                </tbody>
-                            </table>
+                            {% include "admin/member/_members.html.twig" with {'members' : members.physiques, 'primary': 'info'} %}
                         </div>  
                     </div>
                     <div class="tab-pane fade" id="morale">
                          <div class="container-fluid">
                             <h1 class="">Personnes morales</h1>
-                            <table class="table table-hover">
-                                <thead>
-                                    <tr>
-                                        <th>Id</th>
-                                        <th>Date adhésion</th>
-                                        <th>Membre</th>
-                                        <th class="text-center">Téléphone</th>
-                                        <th>Adresse</th>
-                                        <th width="15%">Actions</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    {% set i = 0 %}
-                                    {% for member in members.morales %}
-                                        <tr>
-                                            {% set i = i+1 %}
-                                            <td>{{i}}</td>
-                                            <td>{{member.createdAt | date('d/m/Y') }}</td>
-                                            <td><a href="{{ path('admin_member_show', {'id' : member.id }) }}">
-                                                 {% if member.picture %}
-                                                    <img src="{{ vich_uploader_asset(member, 'imageFile') }}" alt="Avatar de {{member.name}}" class="avatar avatar-mini">
-                                                {% else %}
-                                                    <img src="/images/members/entreprise.jpeg" alt="Avatar de {{member.name}}" class="avatar avatar-mini">
-                                                {% endif %} 
-                                                {{member.name}}</a>
-                                            </td>                    
-                                            <td class="text-center">
-                                                {{member.tel1}}                  
-                                            </td>
-                                            <td >
-                                            {{member.address}}    
-                                            </td>
-                                            <td>
-                                                <a href="{{ path('admin_member_show', {'id' : member.id }) }}" class="btn btn-info"><i class="fas fa-eye"></i></a>
-                                                <a href="#" class="btn btn-danger" onclick="return confirm('Voulez-vous supprimer ce membre ?');"><i class="fas fa-trash"></i></a>
-                                            </td>
-                                        </tr>
-                                    {% endfor %}
-                                </tbody>
-                            </table>
+                            {% include "admin/member/_members.html.twig" with {'members' : members.morales, 'primary': 'danger'} %}
                         </div>  
                     </div>
                 </div>              

@@ -28,7 +28,7 @@
                             <br>
                         </div>
                         <div class="col-md-9 align-items-center">
-                            <h1>{{ member.fullName }} <span class="small">({{member.category.libelle}})</span></h1><br>
+                            <h1>{{ member.fullName }} <span class="small">({{member.category.libelle}})</span></h1>
                             {% if member.parrain %}
                                 <h3>Parrain direct : <a href="{{ path('admin_member_show', {'id' : member.parrain.id}) }}">{{ member.parrain.fullName }}</a></h3>
                             {% endif %}  
@@ -47,6 +47,16 @@
                             <a class="nav-link" data-toggle="tab" href="#bonus">
                             <i class="fas fa-check"></i>
                             Mes bonus</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" data-toggle="tab" href="#children">
+                            <i class="fas fa-users"></i>
+                            Mes parrainés</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" data-toggle="tab" href="#grandson">
+                            <i class="fas fa-users"></i>
+                            Mes petits fils</a>
                         </li>
                     </ul>
                 <div id="myTabContent" class="tab-content">                   
@@ -122,6 +132,18 @@
                                     </tr>
                                 </tfooter>
                             </table>
+                        </div>  
+                    </div>
+                    <div class="tab-pane fade" id="children">
+                         <div class="container-fluid">
+                            <h1 class="">Mes parrainés </h1>
+                            {% include "admin/member/_members.html.twig" with {'members' : member.members, 'primary': 'info'} %}                            
+                        </div>  
+                    </div>
+                    <div class="tab-pane fade" id="grandson">
+                         <div class="container-fluid">
+                            <h1 class="">Mes petits fils </h1>
+                            {% include "admin/member/_members.html.twig" with {'members' : member.grandson, 'primary': 'dark'} %}                            
                         </div>  
                     </div>
                 </div>

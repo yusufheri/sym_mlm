@@ -519,6 +519,24 @@ class Member
         return $this->members;
     }
 
+    /**
+     * @return Collection|self[]
+     */
+    public function getGrandSon(): Collection
+    {
+        $members = new ArrayCollection();
+
+        $children = $this->members;
+       
+        foreach ($children as $key => $child) {
+            $grandSon = $child->getMembers();
+            foreach ($grandSon as $k => $member) {
+                $members[] = $member;
+           }
+        }
+        return $members;
+    }
+
     public function addMember(self $member): self
     {
         if (!$this->members->contains($member)) {
