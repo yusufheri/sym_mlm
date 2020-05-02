@@ -14,7 +14,7 @@
             <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4"> 
                 {#  <h1 class="my-3">Détails du Membre : {{ member.fullName }}</h1> #}
                  <div class="container">
-                     <div class="row align-items-center mb-2">
+                    <div class="row align-items-center mb-2">
                         <div class="col-md-3 text-center">
                             {% if member.picture %}
                                 <img src="{{ vich_uploader_asset(member, 'imageFile') }}" alt="Avatar de {{member.name}}" class="avatar mb-3">

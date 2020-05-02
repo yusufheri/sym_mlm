@@ -1,0 +1,59 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Modification du profile :: KomptApp{% endblock %}
+
+{% block body %}
+    {% include "partials/header.html.twig" %} 
+    <div class="container">       
+        <div class="row">
+            <div class="col-md mt-3">
+                <h1 class="my-5">Modification du profile</h1><hr>
+                    {% set user = app.user %}
+                    {{ form_start(form) }}
+
+                <div class="alert alert-light">
+                
+               
+                    <div class="row">
+                        <div class="col-md">{{ form_row(form.firstname) }}</div>
+                        <div class="col-md">{{ form_row(form.lastname) }}</div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md">{{ form_row(form.email) }}</div>
+                        <div class="col-md">
+                        <div class="row">
+                            <div class="col-md-9">{{ form_row(form.imageFile) }}</div>
+                            <div class="col-md-3">
+                                {% if user.local == true %}
+                                    <img id="avatar" src="{{ vich_uploader_asset(user, 'imageFile') }}" alt="Avatar de {{user.fullName}}" class="avatar  float-right">
+                                {% else %}
+                                    {% if user.picture is not empty %}
+                                        <img id="avatar" src="{{user.picture}}" alt="Avatar de {{user.fullName}}" class="avatar  float-right">     
+                                    {% else %}
+                                        <img id="avatar" src="/images/logo.png" alt="Avatar de {{user.fullName}}" class="avatar  float-right">         
+                                    {% endif %}                            
+                                {% endif %}  
+                            </div>                        
+                        </div>
+                                                    
+                        </div>
+                    </div>
+
+                    {{ form_widget(form) }}
+
+                    <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}" >
+                    <div class="alert alert-primary clearfix my-5">
+                        <h2 class="alert-heading">Sauvegarder les informations</h2>
+                        <p>Vous êtes sur le point d'enregistrer les modifications sur le compte de {{ user.fullName }} .</p>
+                        <button type="submit" class="btn btn-success float-right">
+                            <i class="fas fa-check"></i>
+                            Enregistrer les modifications
+                        </button>
+                    </div>
+                    {{ form_end(form) }}
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

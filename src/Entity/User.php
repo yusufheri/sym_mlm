@@ -109,11 +109,17 @@ class User implements UserInterface
      */
     private $lastname;
 
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Member", mappedBy="user")
+     */
+    private $members;
+
     public function __construct()
     {
         $this->roles = new ArrayCollection();
         $this->local = true;
-        $this->state = false;     
+        $this->state = false;
+        $this->members = new ArrayCollection();     
     }
 
     /**
@@ -308,7 +314,13 @@ class User implements UserInterface
     }
 
     public function getRoles(){
-        return ["ROLE_USER"];
+        $roles = $this->roles->map(function($role){
+            return $role->getLibelle();
+        })->toArray();
+
+        $roles [] = "ROLE_USER";
+
+        return $roles;
     }
 
     public function getSalt(){}
@@ -345,6 +357,37 @@ class User implements UserInterface
     public function setLastname(string $lastname): self
     {
         $this->lastname = $lastname;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Member[]
+     */
+    public function getMembers(): Collection
+    {
+        return $this->members;
+    }
+
+    public function addMember(Member $member): self
+    {
+        if (!$this->members->contains($member)) {
+            $this->members[] = $member;
+            $member->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeMember(Member $member): self
+    {
+        if ($this->members->contains($member)) {
+            $this->members->removeElement($member);
+            // set the owning side to null (unless already changed)
+            if ($member->getUser() === $this) {
+                $member->setUser(null);
+            }
+        }
 
         return $this;
     }

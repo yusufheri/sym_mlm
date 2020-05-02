@@ -3,6 +3,7 @@
 namespace App\DataFixtures;
 
 use Faker\Factory;
+use App\Entity\Role;
 use App\Entity\Sexe;
 use App\Entity\User;
 use App\Entity\Bonus;
@@ -27,8 +28,27 @@ class AppFixtures extends Fixture
     public function load(ObjectManager $manager)
     {
         $faker = Factory::create('fr_FR'); 
+        // Gestion des rôles
+        $adminRole = new Role();
+        $adminRole   ->setLibelle("ROLE_ADMIN")
+                ->setDescription($faker->sentence());        
+        $manager->persist($adminRole);
 
+        $adminUser = new User();
+        $adminUser
+                ->setLastName("Admin")
+                ->setFirstName("*")
+                ->setEmail("admin@gmail.com")
+                ->setPicture("https://komptapp.herokuapp.com/images/logo.png")
+                ->setHash($this->encoder->encodePassword($adminUser, '12345678'))
+                ->setDescription('<p>'. join('</p><p>', $faker->paragraphs(3)).'</p>')
+                ->setState(true)
+                ->setLocal(false)
+                ->addRole($adminRole)
+                ;
+        $manager->persist($adminUser);
         // Gestion des utilisateurs
+        $users = [];
         for($i = 0; $i < 5 ; $i++){
             $user = new User();
 
@@ -38,16 +58,18 @@ class AppFixtures extends Fixture
 
             $picture .= ($genre == 'male' ? "men/" : "women/").$pictureId;
 
-            $psw = $this->encoder->encodePassword($user, 'password');
+            $psw = $this->encoder->encodePassword($user, '123456');
 
             $user   -> setEmail($faker->email)
+                    -> setFirstName($faker->firstName())
+                    -> setLastName($faker->lastName())
                     -> setPicture($picture)
                     -> setHash($psw)
                     -> setState(true)
                     -> setDescription($faker->sentence(10));
 
             $manager->persist($user);
-            
+            $users [] = $user;
         }
 
          //Gestion des Sexe
@@ -150,7 +172,8 @@ class AppFixtures extends Fixture
                 ->setCategory($categories[1])
                 ->setCommune($communes[mt_rand(0, count($communes) - 1)])
                 ->setProvince($provinces[mt_rand(0, count($provinces) - 1)])
-                ->setWebsite($faker->url);
+                ->setWebsite($faker->url)
+                ->setUser($users[mt_rand(0, count($users) - 1)]);
 
         $manager->persist($ancentre);
 
@@ -186,6 +209,7 @@ class AppFixtures extends Fixture
                     ->setCommune($communes[mt_rand(0, count($communes) - 1)])
                     ->setProvince($provinces[mt_rand(0, count($provinces) - 1)])
                     ->setParrain($ancentre)
+                    ->setUser($users[mt_rand(0, count($users) - 1)])
                     ->setWebsite($faker->url);
 
             $manager->persist($member);
@@ -232,7 +256,8 @@ class AppFixtures extends Fixture
                                 ->setCommune($communes[mt_rand(0, count($communes) - 1)])
                                 ->setProvince($provinces[mt_rand(0, count($provinces) - 1)])
                                 ->setWebsite($faker->url)
-                                ->setParrain($member);
+                                ->setParrain($member)
+                                ->setUser($users[mt_rand(0, count($users) - 1)]);
     
                 $manager->persist($member_child);
                 $paiement = new Paiement();
@@ -279,7 +304,8 @@ class AppFixtures extends Fixture
                                     ->setCommune($communes[mt_rand(0, count($communes) - 1)])
                                     ->setProvince($provinces[mt_rand(0, count($provinces) - 1)])
                                     ->setWebsite($faker->url)
-                                    ->setParrain($member_child);
+                                    ->setParrain($member_child)
+                                    ->setUser($users[mt_rand(0, count($users) - 1)]);
         
                     $manager->persist($member_child2);
                     $paiement = new Paiement();
