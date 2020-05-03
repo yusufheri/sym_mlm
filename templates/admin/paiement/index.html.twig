@@ -19,12 +19,11 @@
                         <thead>
                             <tr>
                                 <th>Id</th>
-                                <th>Date</th>
-                                <th>Catégorie</th>
+                                <th width="14%">Date</th>
                                 <th>Membre</th>
                                 <th>Motif</th>
                                 <th>Montant</th>
-                                <th>Actions</th>
+                                <th width="{% if is_granted('ROLE_ADMIN') %}20%{% endif %}">Actions</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -33,14 +32,16 @@
                             {% set i = i + 1 %}
                                 <tr>
                                     <td>{{ i }}</td>
-                                    <td>{{ item.paidAt | date('d-m-Y')}}</td>
-                                    <td>{{ item.payer.category.libelle }}</td>
-                                    <td><a href="{{ path('admin_member_show', {'id' : item.payer.id }) }}">{{ item.payer.fullName }}</a></td>
+                                    <td>{{ item.createdAt | date('d/m/Y H:i')}}</td>
+                                    <td><a href="{{ path('admin_member_show', {'id' : item.payer.id }) }}"><b>{{ item.payer.fullName }}</b> ({{ item.payer.category.libelle }})</a></td>
                                     <td><span class="badge badge-primary">{{ item.category.libelle }}</span></td>
-                                    <td><b>{{ item.amount | number_format('2', ',', ' ') }} &dollar;</b></td>
+                                    <td class="text-right"><b>{{ item.amount | number_format('0', ',', ' ') }} &dollar;</b></td>
                                     <td>
-                                        <a href="#" class="btn btn-danger"><i class="fas fa-eye"></i></a>
-                                        <a href="#" class="btn btn-primary"><i class="fas fa-edit"></i></a>
+                                        <a href="#" class="btn btn-info"><i class="fas fa-eye"></i></a>
+                                        {% if is_granted("ROLE_ADMIN") %}
+                                            <a href="#" class="btn btn-primary"><i class="fas fa-edit"></i></a>
+                                            <a href="#" class="btn btn-danger"><i class="fas fa-trash"></i></a>
+                                        {% endif %}
                                     </td>
                                 </tr>
                             {% endfor %}                           

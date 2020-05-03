@@ -184,7 +184,8 @@ class AppFixtures extends Fixture
                     ->setPayer($ancentre)
                     ->setCategory($catPaiements[0])
                     ->setAmountLetter(($catMembreId == 0)? "Dix dollars américains": "Cinquante dollars américains" )
-                    ->setPaidAt($PaidAt);
+                    ->setPaidAt($PaidAt)
+                    ->setUser($users[mt_rand(0, count($users) - 1)]);
     $manager->persist($paiement);
 
 
@@ -222,7 +223,8 @@ class AppFixtures extends Fixture
                         ->setPayer($member)
                         ->setCategory($catPaiements[0])
                         ->setAmountLetter(($catMembreId == 0)? "Dix dollars américains": "Cinquante dollars américains" )
-                        ->setPaidAt($PaidAt);
+                        ->setPaidAt($PaidAt)
+                        ->setUser($users[mt_rand(0, count($users) - 1)]);
             $manager->persist($paiement);
 
             $bonus = new Bonus();
@@ -265,7 +267,8 @@ class AppFixtures extends Fixture
                             ->setPayer($member_child)
                             ->setCategory($catPaiements[0])
                             ->setAmountLetter(($catMembreId == 0)? "Dix dollars américains": "Cinquante dollars américains" )
-                            ->setPaidAt(new \DateTime('now'));
+                            ->setPaidAt(new \DateTime('now'))
+                            ->setUser($users[mt_rand(0, count($users) - 1)]);
                 $manager->persist($paiement);
 
                 $bonus = new Bonus();
@@ -316,7 +319,8 @@ class AppFixtures extends Fixture
                                 ->setPayer($member_child2)
                                 ->setCategory($catPaiements[0])
                                 ->setAmountLetter(($catMembreId == 0)? "Dix dollars américains": "Cinquante dollars américains" )
-                                ->setPaidAt($PaidAt);
+                                ->setPaidAt($PaidAt)
+                                ->setUser($users[mt_rand(0, count($users) - 1)]);
                     $manager->persist($paiement);
                     
                     $bonus = new Bonus();

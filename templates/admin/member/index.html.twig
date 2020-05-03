@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Dashboard : Members{% endblock %}
+{% block title %}Nouveau membre::KomptApp{% endblock %}
 
 {% block stylesheets %}
      {{ encore_entry_link_tags('css/dashboard') }}
@@ -35,11 +35,10 @@
                     <div class="tab-pane fade" id="morale">
                          <div class="container-fluid">
                             <h1 class="">Personnes morales</h1>
-                            {% include "admin/member/_members.html.twig" with {'members' : members.morales, 'primary': 'danger'} %}
+                            {% include "admin/member/_members.html.twig" with {'members' : members.morales, 'primary': 'primary'} %}
                         </div>  
                     </div>
-                </div>              
-                          
+                </div>    
             </main>
         </div>
     </div>

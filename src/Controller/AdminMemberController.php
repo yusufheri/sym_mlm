@@ -2,15 +2,17 @@
 
 namespace App\Controller;
 
+use App\Entity\Bonus;
 use App\Entity\Member;
-use App\Form\AdvanceMemberType;
+use App\Entity\Paiement;
 use App\Form\SimpleMemberType;
-use App\Repository\CatMemberRepository;
+use App\Form\AdvanceMemberType;
 use App\Repository\MemberRepository;
+use App\Repository\CatMemberRepository;
 use Doctrine\ORM\EntityManagerInterface;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class AdminMemberController extends AbstractController
 {
@@ -90,9 +92,57 @@ class AdminMemberController extends AbstractController
 
             if($form->isSubmitted() && $form->isValid()){
                
+                $user = $this->getUser();
+                $member->setUser($user);
+
                 $entityManagerInterface->persist($member);
+
+                $amount =($id == 1)? 10:50;
+                $amount_letter =($id == 1)? "Dix dollars américains":"Cinquante dollars américains";
+
+                $parrain_direct = $member->getParrain();
+                if (! is_null($parrain_direct)){ $parrain_indirect = $parrain_direct->getParrain(); }
+
+                $category = $entityManagerInterface
+                            ->createQuery('SELECT c FROM App\Entity\CatPaiement c WHERE c.indice = :indice AND c.deletedAt IS NULL')
+                            ->setParameter("indice", 1)
+                            ->setMaxResults(1)
+                            ->getResult();
+
+                $paiement = new Paiement();
+                $paiement   ->setAmount($amount)
+                            ->setPaidAt(new \DateTime())
+                            ->setCategory($category[0])
+                            ->setPayer($member)
+                            ->setComment($amount_letter)
+                            ->setUser($user)
+                            ->setAmountLetter($amount_letter);
+                $entityManagerInterface->persist($paiement);
+                //  dump($paiement);
+                
+                $bonus = new Bonus();
+                if($parrain_direct  instanceof Member) {
+                    $bonus              ->setBeneficiary($parrain_direct)
+                                        ->setAmount($paiement->getAmount() * 10 /100)
+                                        ->setDonor($paiement)
+                                        ->setPaidAt($paiement->getPaidAt());
+                    $entityManagerInterface->persist($bonus);
+                    //  dump($bonus);
+                }
+                
+                $bonus_indirect = new Bonus();
+                if ($parrain_indirect instanceof Member){
+                    $bonus_indirect ->setBeneficiary($parrain_indirect)
+                                    ->setAmount($paiement->getAmount() * 5 /100)
+                                    ->setDonor($paiement)
+                                    ->setPaidAt($paiement->getPaidAt());
+                    $entityManagerInterface->persist($bonus_indirect);
+                    //  dump($bonus_indirect);
+                }
+
+
                 $entityManagerInterface->flush();
-              
+
                 $this->addFlash(
                     "success",
                     "Le nouveau membre <b>". $member->getname() ."</b> est enregistré avec succès dans la base de données"

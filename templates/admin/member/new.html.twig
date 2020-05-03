@@ -14,7 +14,7 @@
             <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4">                
                 {% if form is defined %}
                     {% if member.name is not empty %}
-                        {% include "admin/partials/modalPaiment.html.twig" %}
+                       {#  {% include "admin/partials/modalPaiment.html.twig" %} #}
                     {% endif %}                    
                     <div class="container">
                         <h1 class="px-5 my-5">{{title}}</h1>
@@ -35,6 +35,11 @@
                                 {{ form_start(form) }}                            
 
                                 {{ form_widget(form) }}
+                               <div class="row">
+                                    <img id="avatar" src="/images/members/avatar.jpg" alt="" class="avatar  float-right">
+                               </div>
+                                         
+                                    
                                 <div class="alert alert-primary clearfix my-5">
                                     <h2 class="alert-heading">Sauvegarder les informations</h2>
                                     <p>Vous êtes sur le point d'enregistrer une <b>{{ title }}</b> comme nouveau membre au sein de l'organisation, nous sommes super fiers de vous.</p>
@@ -70,4 +75,18 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/feather-icons/4.9.0/feather.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.3/Chart.min.js"></script>
     {{ encore_entry_script_tags('js/dashboard') }}   
+    <script>
+        function readURL(input) {
+            if (input.files && input.files[0]) {
+                var reader = new FileReader();
+                
+                reader.onload = function (e) {
+                    $('#avatar').attr('src', e.target.result);
+                }
+                reader.readAsDataURL(input.files[0]);
+            }
+        }        
+       $("#simple_member_imageFile").change(function(){readURL(this)})
+       $("#advance_member_imageFile").change(function(){readURL(this)})
+    </script>
 {% endblock %} 

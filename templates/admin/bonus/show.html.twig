@@ -58,7 +58,12 @@
                                 {% set total = total + montant %}
                                     <tr>
                                         {% set i = i+1 %}
-                                        <td>{{ i }}</td>
+                                        <td>
+                                            <div class="custom-control custom-switch">
+                                                <input type="checkbox" class="custom-control-input" id="customSwitch1" >
+                                                <label class="custom-control-label" for="customSwitch1"></label>
+                                            </div>
+                                        </td>
                                         <td>{{ bonus.paidAt | date('d/m/Y') }}</td>
                                         <td>{{ bonus.donor.category.libelle }}</td>                    
                                         <td><a href="{{ path('admin_member_show', {'id' : bonus.donor.payer.id }) }}">{{ bonus.donor.payer.fullName }}</a></td>

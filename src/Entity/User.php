@@ -114,12 +114,18 @@ class User implements UserInterface
      */
     private $members;
 
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Paiement", mappedBy="user")
+     */
+    private $paiements;
+
     public function __construct()
     {
         $this->roles = new ArrayCollection();
         $this->local = true;
         $this->state = false;
-        $this->members = new ArrayCollection();     
+        $this->members = new ArrayCollection();
+        $this->paiements = new ArrayCollection();     
     }
 
     /**
@@ -386,6 +392,37 @@ class User implements UserInterface
             // set the owning side to null (unless already changed)
             if ($member->getUser() === $this) {
                 $member->setUser(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Paiement[]
+     */
+    public function getPaiements(): Collection
+    {
+        return $this->paiements;
+    }
+
+    public function addPaiement(Paiement $paiement): self
+    {
+        if (!$this->paiements->contains($paiement)) {
+            $this->paiements[] = $paiement;
+            $paiement->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removePaiement(Paiement $paiement): self
+    {
+        if ($this->paiements->contains($paiement)) {
+            $this->paiements->removeElement($paiement);
+            // set the owning side to null (unless already changed)
+            if ($paiement->getUser() === $this) {
+                $paiement->setUser(null);
             }
         }
 

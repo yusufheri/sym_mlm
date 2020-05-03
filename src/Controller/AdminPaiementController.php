@@ -22,7 +22,7 @@ class AdminPaiementController extends AbstractController
      */
     public function index(PaiementRepository $paiementRepository,$page, Paginator $paginator)
     {
-        $tab = $paiementRepository->findBy(["deletedAt" => null],[]);
+        $tab = $paiementRepository->findBy(["deletedAt" => null],["createdAt" => "DESC"]);
         $total = 0; 
 
         for ($i=0; $i < count($tab); $i++) { 
@@ -32,7 +32,7 @@ class AdminPaiementController extends AbstractController
                     ->setLimit(15)
                     ->setPage($page);
         return $this->render('admin/paiement/index.html.twig', [
-            'data' => $paginator->getData(["deletedAt" => null], ["paidAt" => "DESC"]),
+            'data' => $paginator->getData(["deletedAt" => null], ["createdAt" => "DESC"]),
             'paginator' => $paginator,
             'total' => $total
         ]);
@@ -51,6 +51,8 @@ class AdminPaiementController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()){
+
+            $paiement->setUser($this->getUser());
 
             $entityManagerInterface->persist($paiement);           
 

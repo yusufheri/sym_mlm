@@ -23,8 +23,8 @@
                         <div class="col-md">{{ form_row(form.email) }}</div>
                         <div class="col-md">
                         <div class="row">
-                            <div class="col-md-9">{{ form_row(form.imageFile) }}</div>
-                            <div class="col-md-3">
+                            <div class="col-md-6">{{ form_row(form.imageFile) }}</div>
+                            <div class="col-md-6">
                                 {% if user.local == true %}
                                     <img id="avatar" src="{{ vich_uploader_asset(user, 'imageFile') }}" alt="Avatar de {{user.fullName}}" class="avatar  float-right">
                                 {% else %}
@@ -56,4 +56,20 @@
             </div>
         </div>
     </div>
+{% endblock %}
+
+{% block javascripts %}
+    <script>
+        function readURL(input) {
+            if (input.files && input.files[0]) {
+                var reader = new FileReader();
+                
+                reader.onload = function (e) {
+                    $('#avatar').attr('src', e.target.result);
+                }
+                reader.readAsDataURL(input.files[0]);
+            }
+        }        
+       $("#account_imageFile").change(function(){readURL(this)})
+    </script>
 {% endblock %}

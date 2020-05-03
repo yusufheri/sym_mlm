@@ -43,7 +43,7 @@ class Paiement
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
-     *  @Assert\Length(min=10, max=500, minMessage="Ce champ doit faire au moins 10 caractères",maxMessage="Ce champ doit faire tout au plus 500 caractères")
+     *  @Assert\Length(min=3, max=500, minMessage="Ce champ doit faire au moins 10 caractères",maxMessage="Ce champ doit faire tout au plus 500 caractères")
      */
     private $amount_letter;
 
@@ -73,6 +73,12 @@ class Paiement
      * @ORM\Column(type="text", nullable=true)
      */
     private $comment;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="paiements")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $user;
 
     public function __construct()
     {
@@ -230,6 +236,18 @@ class Paiement
     public function setComment(?string $comment): self
     {
         $this->comment = $comment;
+
+        return $this;
+    }
+
+    public function getUser(): ?User
+    {
+        return $this->user;
+    }
+
+    public function setUser(?User $user): self
+    {
+        $this->user = $user;
 
         return $this;
     }
