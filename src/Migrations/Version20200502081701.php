@@ -22,7 +22,7 @@ final class Version20200502081701 extends AbstractMigration
         // this up() migration is auto-generated, please modify it to your needs
         $this->abortIf($this->connection->getDatabasePlatform()->getName() !== 'mysql', 'Migration can only be executed safely on \'mysql\'.');
 
-        $this->addSql('DROP TABLE rememberme_token');
+        //$this->addSql('DROP TABLE rememberme_token');
         $this->addSql('ALTER TABLE member ADD user_id INT NOT NULL');
         $this->addSql('ALTER TABLE member ADD CONSTRAINT FK_70E4FA78A76ED395 FOREIGN KEY (user_id) REFERENCES user (id)');
         $this->addSql('CREATE INDEX IDX_70E4FA78A76ED395 ON member (user_id)');
