@@ -79,7 +79,7 @@ class AdminMemberController extends AbstractController
     }
 
     /**
-     * @Route("/dashboard/member/new", name="admin_member_new")
+     * @Route("/dashboard/new/member", name="admin_member_new")
      * 
      * @return Response
      */
