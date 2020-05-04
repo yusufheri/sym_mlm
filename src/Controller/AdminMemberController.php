@@ -17,38 +17,58 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 class AdminMemberController extends AbstractController
 {
     /**
-     * @Route("/dashboard/member", name="admin_member_index")
+     * @Route("/dashboard/member/{query?}", name="admin_member_index")
      * 
      * @return Response
      */
-    public function index(MemberRepository $repo, EntityManagerInterface $manager)
+    public function index(MemberRepository $repo, EntityManagerInterface $manager, $query)
     {
-        $physiques =  $manager->createQuery(
-            "SELECT m.name,m.lastname,m.prename,m.createdAt,m.picture,m.id,m.tel1,m.address
-            FROM App\Entity\member m
-            JOIN m.category c
-            WHERE c.indice = 1 AND m.deletedAt is null
-            ORDER BY m.name ASC"
-        )->getResult();
 
-        $morales =  $manager->createQuery(
-            "SELECT m.name,m.lastname,m.prename,m.createdAt,m.picture,m.id,m.tel1,m.address
-            FROM App\Entity\member m
-            JOIN m.category c
-            WHERE c.indice = 2 AND m.deletedAt is null
-            ORDER BY m.name ASC"
-        )->getResult();
+        if($query){
+            $title = "Les noms de membres commençant par: <b>".$query."</b>";
+            $physiques =  $manager->createQuery(
+                "SELECT m.name,m.lastname,m.prename,m.createdAt,m.picture,m.id,m.tel1,m.address
+                FROM App\Entity\member m
+                JOIN m.category c
+                WHERE c.indice = 1 AND m.deletedAt is null AND m.name like '".$query."%'
+                ORDER BY m.name ASC"
+            )->getResult();
+    
+            $morales =  $manager->createQuery(
+                "SELECT m.name,m.lastname,m.prename,m.createdAt,m.picture,m.id,m.tel1,m.address
+                FROM App\Entity\member m
+                JOIN m.category c
+                WHERE c.indice = 2 AND m.deletedAt is null AND  m.name like '".$query."%'
+                ORDER BY m.name ASC"
+            )->getResult();
+        } else {
+            $title = 'Nos membres';
+            $physiques =  $manager->createQuery(
+                "SELECT m.name,m.lastname,m.prename,m.createdAt,m.picture,m.id,m.tel1,m.address
+                FROM App\Entity\member m
+                JOIN m.category c
+                WHERE c.indice = 1 AND m.deletedAt is null
+                ORDER BY m.name ASC"
+            )->getResult();
+    
+            $morales =  $manager->createQuery(
+                "SELECT m.name,m.lastname,m.prename,m.createdAt,m.picture,m.id,m.tel1,m.address
+                FROM App\Entity\member m
+                JOIN m.category c
+                WHERE c.indice = 2 AND m.deletedAt is null
+                ORDER BY m.name ASC"
+            )->getResult();
+        }   
 
-        //  $physiques = $repo->findBy(["deletedAt" => null, "category.indice" => 1], ["name" => "ASC"]);
-        //  $morales = $repo->findBy(["deletedAt" => null, "category.indice" => 2], ["name" => "ASC"]);
        
         return $this->render('admin/member/index.html.twig', [
             'members' => compact('physiques', 'morales'),
+            'title' => $title
         ]);
     }
 
     /**
-     * @Route("/dashboard/member/{id}/show", name="admin_member_show")
+     * @Route("/dashboard/member/show/{id?}", name="admin_member_show")
      * 
      * @return Response
      */

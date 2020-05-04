@@ -1,6 +1,6 @@
 /* globals Chart:false, feather:false */
 if (document.querySelector("#paiement_paidAt") !== null){
-  document.querySelector("#paiement_paidAt").valueAsDate = new Date();
+   document.querySelector("#paiement_paidAt").valueAsDate = new Date();
 } else if(document.querySelector("#advance_member_date_nais") !== null){
   document.querySelector("#advance_member_date_nais").valueAsDate = new Date();
 }

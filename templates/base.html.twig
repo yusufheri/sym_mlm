@@ -11,8 +11,84 @@
         {# {% include "partials/header.html.twig" %} #}
         {% block body %}{% endblock %}
         {% include "partials/footer.html.twig" %}
-        {{ encore_entry_script_tags('js/app') }}
+         {{ encore_entry_script_tags('js/app') }}
         <script src="https://cdnjs.cloudflare.com/ajax/libs/feather-icons/4.9.0/feather.min.js"></script>
+        <script src="https://twitter.github.io/typeahead.js/releases/latest/typeahead.bundle.js"></script>
+        <script>
+            $(document).ready(function(){
+       
+                var members = new Bloodhound({
+                    datumTokenizer: Bloodhound.tokenizers.obj.whitespace('value'),
+                    queryTokenizer: Bloodhound.tokenizers.whitespace,
+            
+                    remote: {
+                        url: "{{ path('handle_request') }}/%QUERY%",
+                        wildcard: '%QUERY%',
+                        filter: function(members){
+                            return $.map(members, function(member)
+                            {
+                                return {
+                                    member_name: member.name,
+                                    member_lastname: member.lastname,
+                                    member_firstname: member.firstname,
+                                    member_token: member.token,
+                                    member_id: member.id,
+                                    member_image: member.picture,
+                                    member_category: member.category.indice
+                                }
+                    
+                            })
+                    
+                        }
+                    }
+                })
+      
+                members.initialize();
+
+                $("#form_query").typeahead(
+                    {
+                        hint: true
+                    },
+                    {
+                        name: 'members',
+                        source: members.ttAdapter(),
+                        display: 'member_name',
+                        templates: {
+                            empty: [
+                                    '<div class="empty-message">Aucun membre trouvé avec ce mot clé </div>'
+                                    ].join('\n'),
+                            suggestion: function(data){ 
+                                var image = "";
+                                if(data.member_image !== null){
+                                    image = ' <img src="/images/members/' + data.member_image + '" alt="" class="avatar avatar-mini">'
+                                }else {
+                                    if(data.member_category == 1){
+                                        image = ' <img src="/images/members/avatar.jpg" alt="" class="avatar avatar-mini">';
+                                    } else {
+                                        image = ' <img src="/images/logo.png" alt="" class="avatar avatar-mini">';
+                                    }
+                                }                          
+                                return `
+                                    <div class="row">
+                                        <a href='{{ path('admin_member_show') }}/`+ data.member_id +`'>
+                                            `+ image +`
+                                            <span>`+ data.member_name +`</span>
+                                        </a>                                
+                                    </div>                                   
+                                `;
+                            },
+                            footer: function(query){
+                                return `<hr>
+                                <a class="text-center" style="text-decoration:none; display:table;font-size: 18px;padding: 3px 20px;" 
+                                href="{{ path('admin_member_index') }}/`+ query.query +`">
+                                 <img src="/images/logo.png" alt="" class="avatar avatar-mini">
+                                <span> Plus de résultats avec : `+ query.query +`</span></a>`;
+                            }
+                        }
+                    }
+                )      
+            })
+        </script>
         {% block javascripts %}{% endblock %}
     </body>
 </html>

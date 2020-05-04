@@ -2,11 +2,12 @@
 
 namespace App\Entity;
 
-use App\Repository\MemberRepository;
 use Doctrine\ORM\Mapping as ORM;
+use App\Repository\MemberRepository;
 use Doctrine\Common\Collections\Collection;
 use Symfony\Component\HttpFoundation\File\File;
 use Doctrine\Common\Collections\ArrayCollection;
+use Symfony\Component\Serializer\Annotation\Groups;
 use Vich\UploaderBundle\Mapping\Annotation as Vich;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
@@ -29,23 +30,27 @@ class Member
      * @ORM\Id()
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
+     * @Groups("member:read")
      */
     private $id;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Groups("member:read")
      * @Assert\Length(min=3, max=255, minMessage="Le nom doit faire au moins 10 caractères",maxMessage="Le nom doit faire tout au plus 255 caractères")
      */
     private $name;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
+     * @Groups("member:read")
      * @Assert\Length(min=3, max=255, minMessage="Le postnom doit faire au moins 10 caractères",maxMessage="Le postnom doit faire tout au plus 255 caractères")
      */
     private $lastname;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
+     * @Groups("member:read")
      */
     private $prename;
 
@@ -136,6 +141,7 @@ class Member
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
+     * @Groups("member:read")
      */
     private $picture;
 
@@ -163,6 +169,7 @@ class Member
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\CatMember", inversedBy="members")
      * @ORM\JoinColumn(nullable=false)
+     * @Groups("member:read")
      */
     private $category;
 

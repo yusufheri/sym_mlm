@@ -1,10 +1,10 @@
 {
-  "build/css/app.css": "/build/css/app.css",
-  "build/css/dashboard.css": "/build/css/dashboard.css",
-  "build/js/app.js": "/build/js/app.js",
-  "build/js/dashboard.js": "/build/js/dashboard.js",
-  "build/js/utils.js": "/build/js/utils.js",
-  "build/runtime.js": "/build/runtime.js",
-  "build/vendors~js/app.js": "/build/vendors~js/app.js",
-  "build/vendors~js/app~js/dashboard~js/utils.js": "/build/vendors~js/app~js/dashboard~js/utils.js"
+  "build/0.e7d5a6e0.js": "/build/0.e7d5a6e0.js",
+  "build/1.6da852f5.js": "/build/1.6da852f5.js",
+  "build/css/app.css": "/build/css/app.8f5ae327.css",
+  "build/css/dashboard.css": "/build/css/dashboard.100f093d.css",
+  "build/js/app.js": "/build/js/app.09a9eb76.js",
+  "build/js/dashboard.js": "/build/js/dashboard.b2059c03.js",
+  "build/js/utils.js": "/build/js/utils.6e8ac20f.js",
+  "build/runtime.js": "/build/runtime.9662464f.js"
 }

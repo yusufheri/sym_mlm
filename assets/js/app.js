@@ -3,8 +3,11 @@ var $ = require('jquery');
 global.$ = global.jQuery = $;
 
 require('bootstrap');
+// require('./typeahead.bundle');
 
-var converter_en = require('number-to-words')
+var converter_en = require('number-to-words');
+
+
 
     function Unite( nombre ){
         var unite;
@@ -171,8 +174,7 @@ var converter_en = require('number-to-words')
     
     }//-----------------------------------------------------------------------
     
-    
-
+   
     $(document).ready(function(){
         var mytext = getUrlParam('id',-1);
     
